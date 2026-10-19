@@ -1,0 +1,52 @@
+LC打包 1.0.0 · Windows 64 位
+
+完整发行 ZIP 解压后，LC打包.exe 位于根目录，双击即可打开 Qt 图形界面。
+Python 和 Qt 运行库已内置，无需另行安装 Python 或 PySide6。
+GitHub 仓库及自动生成的源码 ZIP 提供源码；请从 Releases 下载含 EXE 的完整发行 ZIP。
+
+请放在可写目录。构建工作目录建议使用英文路径；输出 APK 可使用中文文件名。
+配置 local-config.json、默认工作目录和输出目录保存在 EXE 同目录下。
+
+需要自行准备：
+- 自己的 MQB 工程及由同一工程生成的 LC。
+- 与 LC 格式、运行时版本匹配的手机助手和 APK 模板。
+- JDK 17、apktool 3、Android SDK build-tools 的 aapt / zipalign / apksigner。
+- 自己的签名密钥库、实际别名和密码；也可在界面中新建 .p12 密钥库。
+ADB 仅用于设备检查，离线构建无需连接设备。
+手机助手、模板、JDK/SDK、apktool、私有工程及签名密钥均不随发行包分发。
+
+首次打包：
+1. 选择 MQB、匹配的 APK 模板和一个尚不存在的输出文件，填写应用信息。
+2. 核对“工具路径”页中的手机助手、JDK、apktool 和 SDK 工具路径。
+3. 点击“开始捕获新 LC”，再到手机助手中手动调试同一工程。
+   也可选择已有 LC，但须自行确认与 MQB 对应；切换 MQB 会清空旧 LC 选择。
+4. 选择自己的签名密钥，输入实际别名和密码。新配置的默认别名为 lcpacker。
+   新建密钥时，仓库密码至少为 6 位。
+5. 点击“环境检测”，修复所有构建必需项，再点击“构建签名 APK”。
+6. 查看构建日志及输出 APK。已有 APK 不会被覆盖。
+
+修改应用名称时，输出 APK 文件名会同步更新，并保留原输出目录。
+“保存配置”和环境报告导出均不保存密码；修改配置后需重新检测。
+请备份密钥、别名和密码，后续更新同一应用需要使用同一密钥。
+APK 构建、签名验证与设备运行是不同阶段；构建成功不代表脚本已在设备上运行。
+
+当前边界：
+已验证手机助手 3.7.2 生成的旧 0a14 LC、510 模板及 Android 9 Root 模拟器组合。
+4.6 生成的 eflc LC 与上述旧模板不兼容，不能混用。
+独立源码自动编译入口尚未验证，仍需手机助手手动调试并捕获 LC。
+Root 真机、自定义 UI、附件执行和插件运行尚未完成设备验证。
+非空 UIP / ATC 默认阻止打包；明确允许原样嵌入后仍会保留未验证警告。
+其他模板、架构和设备的兼容性请结合 README 说明进行验证。
+
+命令行示例（日志、报告文件必须尚不存在）：
+.\LC打包.exe --log-file inspect.log inspect "工程.mqb"
+.\LC打包.exe --log-file doctor.log doctor --config local-config.json --report doctor.json
+.\LC打包.exe --self-test self-test.json
+
+命令行签名密码通过 LC_PACKER_STORE_PASSWORD 提供，
+独立私钥密码通过 LC_PACKER_KEY_PASSWORD 提供。
+不要把密码写入命令参数或配置文件；已有密钥应填写其实际别名。
+--self-test 只加载自身界面，不进行设备运行验证。
+
+源码入口为 lc_packer；开发、测试和重新构建 EXE 的命令见 README.md。
+Qt Designer 编辑通过源码中的 edit_ui.cmd 使用。

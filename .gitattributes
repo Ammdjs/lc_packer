@@ -1,0 +1,11 @@
+* text=auto
+*.py text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.ui text eol=lf
+*.qss text eol=lf
+*.spec text eol=lf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+# Preserve the original third-party license text, including whitespace.
+licenses/*.txt -text -whitespace

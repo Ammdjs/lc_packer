@@ -1,0 +1,23 @@
+{
+  "source": "",
+  "template": "",
+  "assistant": "",
+  "compiled": "",
+  "output": "",
+  "workspace": "",
+  "java": "",
+  "apktool": "",
+  "aapt": "",
+  "zipalign": "",
+  "apksigner": "",
+  "adb": "",
+  "keystore": "",
+  "alias": "lcpacker",
+  "serial": "",
+  "icon": "",
+  "dependency_dir": "",
+  "app_name": "我的脚本",
+  "package_name": "com.example.myscript",
+  "version_name": "1.0.0",
+  "version_code": "1"
+}

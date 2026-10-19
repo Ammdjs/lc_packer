@@ -1,0 +1,2138 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ui version="4.0">
+ <class>PackerForm</class>
+ <widget class="QWidget" name="PackerForm">
+  <layout class="QHBoxLayout" name="rootLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QFrame" name="sidebar">
+     <property name="minimumWidth">
+      <number>196</number>
+     </property>
+     <property name="maximumWidth">
+      <number>196</number>
+     </property>
+     <layout class="QVBoxLayout" name="sidebarLayout">
+      <property name="leftMargin">
+       <number>18</number>
+      </property>
+      <property name="topMargin">
+       <number>18</number>
+      </property>
+      <property name="rightMargin">
+       <number>18</number>
+      </property>
+      <property name="bottomMargin">
+       <number>18</number>
+      </property>
+      <property name="spacing">
+       <number>18</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="brandMark">
+        <property name="text">
+         <string>LC</string>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="brandName">
+        <property name="text">
+         <string>LC打包</string>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="brandCaption">
+        <property name="text">
+         <string>安卓脚本打包工作台</string>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QListWidget" name="navigation">
+        <item>
+         <property name="text">
+          <string>01   打包配置</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>02   编译与签名</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>03   工具路径</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>04   环境检测</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>05   构建日志</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="sideMode">
+        <property name="text">
+         <string>ROOT  /  EMULATOR</string>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="sideHint">
+        <property name="text">
+         <string>本机编译组件
+本机模板 · 私有签名</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="body">
+     <layout class="QVBoxLayout" name="bodyLayout">
+      <property name="leftMargin">
+       <number>26</number>
+      </property>
+      <property name="topMargin">
+       <number>26</number>
+      </property>
+      <property name="rightMargin">
+       <number>26</number>
+      </property>
+      <property name="bottomMargin">
+       <number>26</number>
+      </property>
+      <property name="spacing">
+       <number>18</number>
+      </property>
+      <item>
+       <layout class="QHBoxLayout" name="headerLayout">
+        <item>
+         <widget class="QWidget" name="heading">
+          <layout class="QVBoxLayout" name="headingLayout">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <property name="spacing">
+            <number>5</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="pageTitle">
+             <property name="text">
+              <string>打包配置</string>
+             </property>
+             <property name="wordWrap">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="pageSubtitle">
+             <property name="text">
+              <string>导入 MQB 工程，配置应用并生成已签名 APK</string>
+             </property>
+             <property name="wordWrap">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="loadConfigButton">
+          <property name="text">
+           <string>载入配置</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="saveButton">
+          <property name="text">
+           <string>保存配置</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="doctorButton">
+          <property name="text">
+           <string>环境检测</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QStackedWidget" name="pages">
+        <widget class="QWidget" name="packagePage">
+         <layout class="QVBoxLayout" name="packagePageScrollLayout">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QScrollArea" name="packagePageScroll">
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <widget class="QWidget" name="packagePageContent">
+             <layout class="QHBoxLayout" name="packageLayout">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>18</number>
+              </property>
+              <item>
+               <widget class="QWidget" name="packageFields">
+                <layout class="QVBoxLayout" name="packageFieldsLayout">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="spacing">
+                  <number>16</number>
+                 </property>
+                 <item>
+                  <widget class="QGroupBox" name="projectCard">
+                   <property name="title">
+                    <string>工程与输出</string>
+                   </property>
+                   <layout class="QVBoxLayout" name="projectCardLayout">
+                    <property name="leftMargin">
+                     <number>18</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>18</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>18</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>18</number>
+                    </property>
+                    <property name="spacing">
+                     <number>12</number>
+                    </property>
+                    <item>
+                     <widget class="QWidget" name="sourceRow">
+                      <layout class="QVBoxLayout" name="sourceLayout">
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="spacing">
+                        <number>6</number>
+                       </property>
+                       <item>
+                        <widget class="QLabel" name="sourceLabel">
+                         <property name="text">
+                          <string>MQB 工程</string>
+                         </property>
+                         <property name="wordWrap">
+                          <bool>false</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <layout class="QHBoxLayout" name="sourceInputLayout">
+                         <property name="spacing">
+                          <number>8</number>
+                         </property>
+                         <item>
+                          <widget class="QLineEdit" name="sourceEdit">
+                           <property name="placeholderText">
+                            <string>选择按键精灵 MQB 项目</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QPushButton" name="sourceBrowse">
+                           <property name="text">
+                            <string>选择…</string>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QWidget" name="templateRow">
+                      <layout class="QVBoxLayout" name="templateLayout">
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="spacing">
+                        <number>6</number>
+                       </property>
+                       <item>
+                        <widget class="QLabel" name="templateLabel">
+                         <property name="text">
+                          <string>APK 模板</string>
+                         </property>
+                         <property name="wordWrap">
+                          <bool>false</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <layout class="QHBoxLayout" name="templateInputLayout">
+                         <property name="spacing">
+                          <number>8</number>
+                         </property>
+                         <item>
+                          <widget class="QLineEdit" name="templateEdit">
+                           <property name="placeholderText">
+                            <string>选择已验证的 Root 模板</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QPushButton" name="templateBrowse">
+                           <property name="text">
+                            <string>选择…</string>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QWidget" name="outputRow">
+                      <layout class="QVBoxLayout" name="outputLayout">
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="spacing">
+                        <number>6</number>
+                       </property>
+                       <item>
+                        <widget class="QLabel" name="outputLabel">
+                         <property name="text">
+                          <string>输出 APK</string>
+                         </property>
+                         <property name="wordWrap">
+                          <bool>false</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <layout class="QHBoxLayout" name="outputInputLayout">
+                         <property name="spacing">
+                          <number>8</number>
+                         </property>
+                         <item>
+                          <widget class="QLineEdit" name="outputEdit">
+                           <property name="placeholderText">
+                            <string>输出文件不能已存在</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QPushButton" name="outputBrowse">
+                           <property name="text">
+                            <string>选择…</string>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QGroupBox" name="metadataCard">
+                   <property name="title">
+                    <string>应用信息</string>
+                   </property>
+                   <layout class="QVBoxLayout" name="metadataCardLayout">
+                    <property name="leftMargin">
+                     <number>18</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>18</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>18</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>18</number>
+                    </property>
+                    <property name="spacing">
+                     <number>12</number>
+                    </property>
+                    <item>
+                     <layout class="QHBoxLayout" name="metadataColumns">
+                      <item>
+                       <widget class="QWidget" name="identityColumn">
+                        <layout class="QVBoxLayout" name="identityLayout">
+                         <property name="leftMargin">
+                          <number>0</number>
+                         </property>
+                         <property name="topMargin">
+                          <number>0</number>
+                         </property>
+                         <property name="rightMargin">
+                          <number>0</number>
+                         </property>
+                         <property name="bottomMargin">
+                          <number>0</number>
+                         </property>
+                         <property name="spacing">
+                          <number>10</number>
+                         </property>
+                         <item>
+                          <widget class="QWidget" name="app_nameRow">
+                           <layout class="QVBoxLayout" name="app_nameLayout">
+                            <property name="leftMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="topMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="rightMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="bottomMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="spacing">
+                             <number>6</number>
+                            </property>
+                            <item>
+                             <widget class="QLabel" name="app_nameLabel">
+                              <property name="text">
+                               <string>应用名称</string>
+                              </property>
+                              <property name="wordWrap">
+                               <bool>false</bool>
+                              </property>
+                             </widget>
+                            </item>
+                            <item>
+                             <layout class="QHBoxLayout" name="app_nameInputLayout">
+                              <property name="spacing">
+                               <number>8</number>
+                              </property>
+                              <item>
+                               <widget class="QLineEdit" name="app_nameEdit" />
+                              </item>
+                             </layout>
+                            </item>
+                           </layout>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QWidget" name="package_nameRow">
+                           <layout class="QVBoxLayout" name="package_nameLayout">
+                            <property name="leftMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="topMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="rightMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="bottomMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="spacing">
+                             <number>6</number>
+                            </property>
+                            <item>
+                             <widget class="QLabel" name="package_nameLabel">
+                              <property name="text">
+                               <string>应用包名</string>
+                              </property>
+                              <property name="wordWrap">
+                               <bool>false</bool>
+                              </property>
+                             </widget>
+                            </item>
+                            <item>
+                             <layout class="QHBoxLayout" name="package_nameInputLayout">
+                              <property name="spacing">
+                               <number>8</number>
+                              </property>
+                              <item>
+                               <widget class="QLineEdit" name="package_nameEdit" />
+                              </item>
+                             </layout>
+                            </item>
+                           </layout>
+                          </widget>
+                         </item>
+                        </layout>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QWidget" name="versionColumn">
+                        <layout class="QVBoxLayout" name="versionLayout">
+                         <property name="leftMargin">
+                          <number>0</number>
+                         </property>
+                         <property name="topMargin">
+                          <number>0</number>
+                         </property>
+                         <property name="rightMargin">
+                          <number>0</number>
+                         </property>
+                         <property name="bottomMargin">
+                          <number>0</number>
+                         </property>
+                         <property name="spacing">
+                          <number>10</number>
+                         </property>
+                         <item>
+                          <widget class="QWidget" name="version_nameRow">
+                           <layout class="QVBoxLayout" name="version_nameLayout">
+                            <property name="leftMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="topMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="rightMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="bottomMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="spacing">
+                             <number>6</number>
+                            </property>
+                            <item>
+                             <widget class="QLabel" name="version_nameLabel">
+                              <property name="text">
+                               <string>版本名称</string>
+                              </property>
+                              <property name="wordWrap">
+                               <bool>false</bool>
+                              </property>
+                             </widget>
+                            </item>
+                            <item>
+                             <layout class="QHBoxLayout" name="version_nameInputLayout">
+                              <property name="spacing">
+                               <number>8</number>
+                              </property>
+                              <item>
+                               <widget class="QLineEdit" name="version_nameEdit" />
+                              </item>
+                             </layout>
+                            </item>
+                           </layout>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QWidget" name="version_codeRow">
+                           <layout class="QVBoxLayout" name="version_codeLayout">
+                            <property name="leftMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="topMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="rightMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="bottomMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="spacing">
+                             <number>6</number>
+                            </property>
+                            <item>
+                             <widget class="QLabel" name="version_codeLabel">
+                              <property name="text">
+                               <string>版本号</string>
+                              </property>
+                              <property name="wordWrap">
+                               <bool>false</bool>
+                              </property>
+                             </widget>
+                            </item>
+                            <item>
+                             <layout class="QHBoxLayout" name="version_codeInputLayout">
+                              <property name="spacing">
+                               <number>8</number>
+                              </property>
+                              <item>
+                               <widget class="QLineEdit" name="version_codeEdit" />
+                              </item>
+                             </layout>
+                            </item>
+                           </layout>
+                          </widget>
+                         </item>
+                        </layout>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <widget class="QWidget" name="iconRow">
+                      <layout class="QVBoxLayout" name="iconLayout">
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="spacing">
+                        <number>6</number>
+                       </property>
+                       <item>
+                        <widget class="QLabel" name="iconLabel">
+                         <property name="text">
+                          <string>应用图标（PNG，可选）</string>
+                         </property>
+                         <property name="wordWrap">
+                          <bool>false</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <layout class="QHBoxLayout" name="iconInputLayout">
+                         <property name="spacing">
+                          <number>8</number>
+                         </property>
+                         <item>
+                          <widget class="QLineEdit" name="iconEdit" />
+                         </item>
+                         <item>
+                          <widget class="QPushButton" name="iconBrowse">
+                           <property name="text">
+                            <string>选择…</string>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QFrame" name="previewCard">
+                <property name="minimumWidth">
+                 <number>248</number>
+                </property>
+                <property name="maximumWidth">
+                 <number>268</number>
+                </property>
+                <layout class="QVBoxLayout" name="previewLayout">
+                 <property name="leftMargin">
+                  <number>22</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>22</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>22</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>22</number>
+                 </property>
+                 <property name="spacing">
+                  <number>16</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="previewHeading">
+                   <property name="text">
+                    <string>应用预览</string>
+                   </property>
+                   <property name="wordWrap">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="iconPreview">
+                   <property name="text">
+                    <string>APK</string>
+                   </property>
+                   <property name="wordWrap">
+                    <bool>false</bool>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="minimumHeight">
+                    <number>140</number>
+                   </property>
+                   <property name="maximumHeight">
+                    <number>140</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="previewAppName">
+                   <property name="text">
+                    <string>我的脚本</string>
+                   </property>
+                   <property name="wordWrap">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="previewPackage">
+                   <property name="text">
+                    <string>com.example.myscript</string>
+                   </property>
+                   <property name="wordWrap">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="previewVersion">
+                   <property name="text">
+                    <string>v1.0.0  ·  build 1</string>
+                   </property>
+                   <property name="wordWrap">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="previewDivider">
+                   <property name="text">
+                    <string>模板架构</string>
+                   </property>
+                   <property name="wordWrap">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="templateSummary">
+                   <property name="text">
+                    <string>选择模板后查看实际 ABI</string>
+                   </property>
+                   <property name="wordWrap">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="inspectTemplateButton">
+                   <property name="text">
+                    <string>检查模板</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="previewStretch">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>10</width>
+                     <height>10</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="previewNote">
+                   <property name="text">
+                    <string>MQB 资源与 LC 必须属于同一工程。
+旧 510 模板已验证 3.7.2 编译格式。</string>
+                   </property>
+                   <property name="wordWrap">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="compilePage">
+         <layout class="QVBoxLayout" name="compilePageScrollLayout">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QScrollArea" name="compilePageScroll">
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <widget class="QWidget" name="compilePageContent">
+             <layout class="QVBoxLayout" name="compileLayout">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>18</number>
+              </property>
+              <item>
+               <layout class="QHBoxLayout" name="compileColumns">
+                <item>
+                 <widget class="QGroupBox" name="compileCard">
+                  <property name="title">
+                   <string>手动编译与捕获</string>
+                  </property>
+                  <layout class="QVBoxLayout" name="compileCardLayout">
+                   <property name="leftMargin">
+                    <number>18</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>18</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>18</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>18</number>
+                   </property>
+                   <property name="spacing">
+                    <number>12</number>
+                   </property>
+                   <item>
+                    <widget class="QWidget" name="assistantRow">
+                     <layout class="QVBoxLayout" name="assistantLayout">
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="spacing">
+                       <number>6</number>
+                      </property>
+                      <item>
+                       <widget class="QLabel" name="assistantLabel">
+                        <property name="text">
+                         <string>按键精灵手机助手 EXE</string>
+                        </property>
+                        <property name="wordWrap">
+                         <bool>false</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <layout class="QHBoxLayout" name="assistantInputLayout">
+                        <property name="spacing">
+                         <number>8</number>
+                        </property>
+                        <item>
+                         <widget class="QLineEdit" name="assistantEdit" />
+                        </item>
+                        <item>
+                         <widget class="QPushButton" name="assistantBrowse">
+                          <property name="text">
+                           <string>选择…</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="compiledRow">
+                     <layout class="QVBoxLayout" name="compiledLayout">
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="spacing">
+                       <number>6</number>
+                      </property>
+                      <item>
+                       <widget class="QLabel" name="compiledLabel">
+                        <property name="text">
+                         <string>已编译 LC 文件</string>
+                        </property>
+                        <property name="wordWrap">
+                         <bool>false</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <layout class="QHBoxLayout" name="compiledInputLayout">
+                        <property name="spacing">
+                         <number>8</number>
+                        </property>
+                        <item>
+                         <widget class="QLineEdit" name="compiledEdit" />
+                        </item>
+                        <item>
+                         <widget class="QPushButton" name="compiledBrowse">
+                          <property name="text">
+                           <string>选择…</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="captureButtons">
+                     <item>
+                      <widget class="QPushButton" name="captureButton">
+                       <property name="text">
+                        <string>开始捕获新 LC</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="cancelCaptureButton">
+                       <property name="text">
+                        <string>取消捕获</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="compileHint">
+                     <property name="text">
+                      <string>先开始捕获，再到所选手机助手中手动调试同一工程。
+只接收本次新生成的文件；独立自动编译入口尚未验证。</string>
+                     </property>
+                     <property name="wordWrap">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="compileCardStretch">
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>10</width>
+                       <height>10</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QGroupBox" name="signingCard">
+                  <property name="title">
+                   <string>签名配置</string>
+                  </property>
+                  <layout class="QVBoxLayout" name="signingCardLayout">
+                   <property name="leftMargin">
+                    <number>18</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>18</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>18</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>18</number>
+                   </property>
+                   <property name="spacing">
+                    <number>12</number>
+                   </property>
+                   <item>
+                    <widget class="QWidget" name="keystoreRow">
+                     <layout class="QVBoxLayout" name="keystoreLayout">
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="spacing">
+                       <number>6</number>
+                      </property>
+                      <item>
+                       <widget class="QLabel" name="keystoreLabel">
+                        <property name="text">
+                         <string>密钥库（PKCS12 / JKS）</string>
+                        </property>
+                        <property name="wordWrap">
+                         <bool>false</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <layout class="QHBoxLayout" name="keystoreInputLayout">
+                        <property name="spacing">
+                         <number>8</number>
+                        </property>
+                        <item>
+                         <widget class="QLineEdit" name="keystoreEdit" />
+                        </item>
+                        <item>
+                         <widget class="QPushButton" name="keystoreBrowse">
+                          <property name="text">
+                           <string>选择…</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="aliasRow">
+                     <layout class="QVBoxLayout" name="aliasLayout">
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="spacing">
+                       <number>6</number>
+                      </property>
+                      <item>
+                       <widget class="QLabel" name="aliasLabel">
+                        <property name="text">
+                         <string>密钥别名</string>
+                        </property>
+                        <property name="wordWrap">
+                         <bool>false</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <layout class="QHBoxLayout" name="aliasInputLayout">
+                        <property name="spacing">
+                         <number>8</number>
+                        </property>
+                        <item>
+                         <widget class="QLineEdit" name="aliasEdit" />
+                        </item>
+                       </layout>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="store_passwordRow">
+                     <layout class="QVBoxLayout" name="store_passwordLayout">
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="spacing">
+                       <number>6</number>
+                      </property>
+                      <item>
+                       <widget class="QLabel" name="store_passwordLabel">
+                        <property name="text">
+                         <string>仓库密码</string>
+                        </property>
+                        <property name="wordWrap">
+                         <bool>false</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <layout class="QHBoxLayout" name="store_passwordInputLayout">
+                        <property name="spacing">
+                         <number>8</number>
+                        </property>
+                        <item>
+                         <widget class="QLineEdit" name="store_passwordEdit">
+                          <property name="placeholderText">
+                           <string>仅本次会话保留</string>
+                          </property>
+                          <property name="echoMode">
+                           <enum>QLineEdit::Password</enum>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="key_passwordRow">
+                     <layout class="QVBoxLayout" name="key_passwordLayout">
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="spacing">
+                       <number>6</number>
+                      </property>
+                      <item>
+                       <widget class="QLabel" name="key_passwordLabel">
+                        <property name="text">
+                         <string>私钥密码（可空）</string>
+                        </property>
+                        <property name="wordWrap">
+                         <bool>false</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <layout class="QHBoxLayout" name="key_passwordInputLayout">
+                        <property name="spacing">
+                         <number>8</number>
+                        </property>
+                        <item>
+                         <widget class="QLineEdit" name="key_passwordEdit">
+                          <property name="placeholderText">
+                           <string>为空时使用仓库密码</string>
+                          </property>
+                          <property name="echoMode">
+                           <enum>QLineEdit::Password</enum>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="newKeyButton">
+                     <property name="text">
+                      <string>新建 .p12 签名密钥</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="signHint">
+                     <property name="text">
+                      <string>保存配置不包含密码。请妥善备份密钥，更新 APK 需要同一密钥。</string>
+                     </property>
+                     <property name="wordWrap">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QLabel" name="workflowHint">
+                <property name="text">
+                 <string>01  导入工程    →    02  手动编译 / 捕获 LC    →    03  构建、对齐与签名    →    04  单独验证设备运行</string>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="compileStretch">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>10</width>
+                  <height>10</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="toolsPage">
+         <layout class="QVBoxLayout" name="toolsPageScrollLayout">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QScrollArea" name="toolsPageScroll">
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <widget class="QWidget" name="toolsPageContent">
+             <layout class="QHBoxLayout" name="toolsLayout">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>18</number>
+              </property>
+              <item>
+               <widget class="QGroupBox" name="toolsCard">
+                <property name="title">
+                 <string>构建工具</string>
+                </property>
+                <layout class="QVBoxLayout" name="toolsCardLayout">
+                 <property name="leftMargin">
+                  <number>18</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>18</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>18</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>18</number>
+                 </property>
+                 <property name="spacing">
+                  <number>12</number>
+                 </property>
+                 <item>
+                  <widget class="QWidget" name="javaRow">
+                   <layout class="QVBoxLayout" name="javaLayout">
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="spacing">
+                     <number>6</number>
+                    </property>
+                    <item>
+                     <widget class="QLabel" name="javaLabel">
+                      <property name="text">
+                       <string>Java 17 程序</string>
+                      </property>
+                      <property name="wordWrap">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="javaInputLayout">
+                      <property name="spacing">
+                       <number>8</number>
+                      </property>
+                      <item>
+                       <widget class="QLineEdit" name="javaEdit" />
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="javaBrowse">
+                        <property name="text">
+                         <string>选择…</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="apktoolRow">
+                   <layout class="QVBoxLayout" name="apktoolLayout">
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="spacing">
+                     <number>6</number>
+                    </property>
+                    <item>
+                     <widget class="QLabel" name="apktoolLabel">
+                      <property name="text">
+                       <string>apktool JAR</string>
+                      </property>
+                      <property name="wordWrap">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="apktoolInputLayout">
+                      <property name="spacing">
+                       <number>8</number>
+                      </property>
+                      <item>
+                       <widget class="QLineEdit" name="apktoolEdit" />
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="apktoolBrowse">
+                        <property name="text">
+                         <string>选择…</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="aaptRow">
+                   <layout class="QVBoxLayout" name="aaptLayout">
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="spacing">
+                     <number>6</number>
+                    </property>
+                    <item>
+                     <widget class="QLabel" name="aaptLabel">
+                      <property name="text">
+                       <string>aapt 程序</string>
+                      </property>
+                      <property name="wordWrap">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="aaptInputLayout">
+                      <property name="spacing">
+                       <number>8</number>
+                      </property>
+                      <item>
+                       <widget class="QLineEdit" name="aaptEdit" />
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="aaptBrowse">
+                        <property name="text">
+                         <string>选择…</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="zipalignRow">
+                   <layout class="QVBoxLayout" name="zipalignLayout">
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="spacing">
+                     <number>6</number>
+                    </property>
+                    <item>
+                     <widget class="QLabel" name="zipalignLabel">
+                      <property name="text">
+                       <string>zipalign 程序</string>
+                      </property>
+                      <property name="wordWrap">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="zipalignInputLayout">
+                      <property name="spacing">
+                       <number>8</number>
+                      </property>
+                      <item>
+                       <widget class="QLineEdit" name="zipalignEdit" />
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="zipalignBrowse">
+                        <property name="text">
+                         <string>选择…</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="apksignerRow">
+                   <layout class="QVBoxLayout" name="apksignerLayout">
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="spacing">
+                     <number>6</number>
+                    </property>
+                    <item>
+                     <widget class="QLabel" name="apksignerLabel">
+                      <property name="text">
+                       <string>apksigner JAR</string>
+                      </property>
+                      <property name="wordWrap">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="apksignerInputLayout">
+                      <property name="spacing">
+                       <number>8</number>
+                      </property>
+                      <item>
+                       <widget class="QLineEdit" name="apksignerEdit" />
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="apksignerBrowse">
+                        <property name="text">
+                         <string>选择…</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="adbRow">
+                   <layout class="QVBoxLayout" name="adbLayout">
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="spacing">
+                     <number>6</number>
+                    </property>
+                    <item>
+                     <widget class="QLabel" name="adbLabel">
+                      <property name="text">
+                       <string>ADB 程序</string>
+                      </property>
+                      <property name="wordWrap">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="adbInputLayout">
+                      <property name="spacing">
+                       <number>8</number>
+                      </property>
+                      <item>
+                       <widget class="QLineEdit" name="adbEdit" />
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="adbBrowse">
+                        <property name="text">
+                         <string>选择…</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="runtimeCard">
+                <property name="title">
+                 <string>工作目录与设备</string>
+                </property>
+                <layout class="QVBoxLayout" name="runtimeCardLayout">
+                 <property name="leftMargin">
+                  <number>18</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>18</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>18</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>18</number>
+                 </property>
+                 <property name="spacing">
+                  <number>12</number>
+                 </property>
+                 <item>
+                  <widget class="QWidget" name="workspaceRow">
+                   <layout class="QVBoxLayout" name="workspaceLayout">
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="spacing">
+                     <number>6</number>
+                    </property>
+                    <item>
+                     <widget class="QLabel" name="workspaceLabel">
+                      <property name="text">
+                       <string>构建工作目录（英文路径）</string>
+                      </property>
+                      <property name="wordWrap">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="workspaceInputLayout">
+                      <property name="spacing">
+                       <number>8</number>
+                      </property>
+                      <item>
+                       <widget class="QLineEdit" name="workspaceEdit" />
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="workspaceBrowse">
+                        <property name="text">
+                         <string>选择…</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="dependency_dirRow">
+                   <layout class="QVBoxLayout" name="dependency_dirLayout">
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="spacing">
+                     <number>6</number>
+                    </property>
+                    <item>
+                     <widget class="QLabel" name="dependency_dirLabel">
+                      <property name="text">
+                       <string>插件 / 命令库目录</string>
+                      </property>
+                      <property name="wordWrap">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="dependency_dirInputLayout">
+                      <property name="spacing">
+                       <number>8</number>
+                      </property>
+                      <item>
+                       <widget class="QLineEdit" name="dependency_dirEdit" />
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="dependency_dirBrowse">
+                        <property name="text">
+                         <string>选择…</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="serialRow">
+                   <layout class="QVBoxLayout" name="serialLayout">
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="spacing">
+                     <number>6</number>
+                    </property>
+                    <item>
+                     <widget class="QLabel" name="serialLabel">
+                      <property name="text">
+                       <string>ADB 设备序列号</string>
+                      </property>
+                      <property name="wordWrap">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="serialInputLayout">
+                      <property name="spacing">
+                       <number>8</number>
+                      </property>
+                      <item>
+                       <widget class="QLineEdit" name="serialEdit" />
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="allowResourcesCheck">
+                   <property name="text">
+                    <string>允许原样嵌入未验证的 UIP / ATC 资源</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="runtimeHint">
+                   <property name="text">
+                    <string>模板决定实际 ABI，不能添加模板没有的架构。
+
+已验证：旧 510 模板 + 3.7.2 LC，在雷电 9 运行。
+
+Root 真机、自定义 UI / 附件及插件运行尚未验证。
+
+构建工作目录请使用完整英文路径；最终 APK 可以输出到中文路径。</string>
+                   </property>
+                   <property name="wordWrap">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="runtimeStretch">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>10</width>
+                     <height>10</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="environmentPage">
+         <layout class="QVBoxLayout" name="environmentLayout">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="spacing">
+           <number>14</number>
+          </property>
+          <item>
+           <layout class="QHBoxLayout" name="environmentToolbar">
+            <item>
+             <widget class="QLabel" name="envSummary">
+              <property name="text">
+               <string>运行检测后，选择一项查看详细原因与修复建议</string>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="rerunDoctorButton">
+              <property name="text">
+               <string>重新检测</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="exportReportButton">
+              <property name="text">
+               <string>导出报告</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QSplitter" name="environmentSplitter">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <widget class="QTableWidget" name="checksTable">
+             <property name="columnCount">
+              <number>4</number>
+             </property>
+             <column>
+              <property name="text">
+               <string>状态</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>检测项</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>版本 / 目标</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>影响</string>
+              </property>
+             </column>
+            </widget>
+            <widget class="QPlainTextEdit" name="checkDetails">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+             <property name="placeholderText">
+              <string>选中检测项，查看实际路径、版本、原始错误和修复建议。</string>
+             </property>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="logsPage">
+         <layout class="QVBoxLayout" name="logsLayout">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="spacing">
+           <number>12</number>
+          </property>
+          <item>
+           <layout class="QHBoxLayout" name="logsToolbar">
+            <item>
+             <widget class="QLabel" name="logsHint">
+              <property name="text">
+               <string>按实际阶段记录结果；APK 生成与设备运行分别验证。</string>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="clearLogsButton">
+              <property name="text">
+               <string>清空日志</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="exportLogsButton">
+              <property name="text">
+               <string>导出日志</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QPlainTextEdit" name="logsEdit">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="footer">
+        <layout class="QHBoxLayout" name="footerLayout">
+         <property name="leftMargin">
+          <number>14</number>
+         </property>
+         <property name="topMargin">
+          <number>14</number>
+         </property>
+         <property name="rightMargin">
+          <number>14</number>
+         </property>
+         <property name="bottomMargin">
+          <number>14</number>
+         </property>
+         <property name="spacing">
+          <number>14</number>
+         </property>
+         <item>
+          <widget class="QWidget" name="statusPart">
+           <layout class="QVBoxLayout" name="statusLayout">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <property name="spacing">
+             <number>4</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="statusLabel">
+              <property name="text">
+               <string>就绪</string>
+              </property>
+              <property name="wordWrap">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="statusHint">
+              <property name="text">
+               <string>LC 辅助打包 · 构建 / 签名 / 运行独立记录</string>
+              </property>
+              <property name="wordWrap">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QProgressBar" name="taskProgress">
+           <property name="maximumWidth">
+            <number>120</number>
+           </property>
+           <property name="textVisible">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="revealButton">
+           <property name="text">
+            <string>打开输出</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="buildButton">
+           <property name="text">
+            <string>构建签名 APK</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources />
+ <connections />
+</ui>
