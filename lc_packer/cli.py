@@ -7,11 +7,12 @@ import os
 from pathlib import Path
 import sys
 
-from .app import CONFIG_PATH, build_from_settings, capture_from_settings, environment_config, load_settings
+from .app import CONFIG_PATH, ROOT, build_from_settings, capture_from_settings, environment_config, load_settings, save_settings
 from .compiler import compile_source
 from .diagnostics import check_environment
 from .project import read_project
 from .templates import inspect_template
+from .toolchain import install_packages, load_catalog, package_status
 
 
 def main(argv=None):
@@ -22,6 +23,11 @@ def main(argv=None):
     inspect.add_argument("--template", action="store_true")
     compile_cmd = commands.add_parser("compile", help="显示自动编译入口状态")
     compile_cmd.add_argument("path", type=Path)
+    for name in ('install-tools', 'tools-status'):
+        sub = commands.add_parser(name, help='离线安装随包工具' if name == 'install-tools' else '检查随包工具安装状态')
+        sub.add_argument('--root', type=Path, default=ROOT)
+        if name == 'install-tools':
+            sub.add_argument('--config', type=Path, help='安装后将工具路径保存到指定配置；省略时不写配置')
     for name in ("build", "doctor", "capture", "gui"):
         sub = commands.add_parser(name)
         sub.add_argument("--config", type=Path, default=CONFIG_PATH)
@@ -40,9 +46,19 @@ def main(argv=None):
             from .gui import run_gui
             run_gui(getattr(args, "config", CONFIG_PATH))
             return 0
-        if args.command == "compile":
+        if args.command in ('install-tools', 'tools-status'):
+            packages = load_catalog()
+            if args.command == 'install-tools':
+                result = install_packages(args.root, packages=packages, log=lambda text: print(text, file=sys.stderr))
+                if args.config:
+                    settings = load_settings(args.config)
+                    settings.update(result)
+                    save_settings(args.config, settings)
+            else:
+                result = {'packages': [asdict(package_status(args.root, package)) for package in packages]}
+        elif args.command == "compile":
             compile_source(args.path)
-        if args.command == "inspect":
+        elif args.command == "inspect":
             if args.template:
                 result = asdict(inspect_template(args.path))
                 result["payload_header"] = result["payload_header"].hex()

@@ -1,6 +1,7 @@
-# Only explicitly listed UI assets are bundled. Local projects, templates,
-# tool binaries, configuration and signing material remain external.
+# Only cataloged UI, templates and legal resources are embedded.
+# User projects, configuration, signing material and tool archives stay external.
 from pathlib import Path
+from lc_packer.builtin_templates import load_templates, template_path
 
 root = Path(SPECPATH)
 a = Analysis(
@@ -9,6 +10,9 @@ a = Analysis(
     binaries=[],
     datas=[(str(root / "lc_packer/ui/main_window.ui"), "lc_packer/ui"),
            (str(root / "lc_packer/ui/style.qss"), "lc_packer/ui"),
+           (str(root / "lc_packer/data/tools_catalog.json"), "lc_packer/data"),
+           (str(root / "lc_packer/data/templates_catalog.json"), "lc_packer/data"),
+           *[(str(template_path(entry['id'])), "lc_packer/assets/templates") for entry in load_templates()],
            (str(root / "THIRD_PARTY_NOTICES.md"), "."),
            *[(str(path), "licenses") for path in sorted((root / "licenses").glob("*.txt"))]],
     hiddenimports=["encodings.gb18030", "encodings.cp437"],

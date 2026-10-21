@@ -14,6 +14,7 @@ from .project import read_project
 from .runtime import application_root
 from .signing import SigningConfig
 from .templates import inspect_template
+from .toolchain import ToolInstallError, installed_settings
 
 ROOT = application_root()
 CONFIG_PATH = ROOT / "local-config.json"
@@ -28,6 +29,12 @@ def _first(paths):
 
 def default_settings():
     settings = dict.fromkeys(FIELDS, "")
+    # A missing/bad distribution catalog must not prevent the configuration
+    # window opening. The tools page reports it and installation validates it.
+    try:
+        bundled = installed_settings(ROOT)
+    except (OSError, ValueError, ToolInstallError):
+        bundled = {}
     java_candidates = []
     if os.environ.get("JAVA_HOME"):
         java_candidates.append(Path(os.environ["JAVA_HOME"]) / "bin/java.exe")
@@ -44,9 +51,12 @@ def default_settings():
                     aapt=_first([tools / "aapt.exe"]), zipalign=_first([tools / "zipalign.exe"]),
                     apksigner=_first([tools / "lib/apksigner.jar"]), assistant=assistant,
                     adb=_first([Path(assistant).parent / "android/adb.exe" if assistant else None, shutil.which("adb")]),
-                    template=_first([base / "res/pack/510-暂停-热更-不自启(支持雷电9).apk" for base in (ROOT, ROOT.parent, ROOT.parent.parent)]),
+                    template=_first([Path(__file__).parent / "assets/templates/root-510.apk"] +
+                                    [base / "res/pack/510-暂停-热更-不自启(支持雷电9).apk" for base in (ROOT, ROOT.parent, ROOT.parent.parent)]),
                     workspace=str(ROOT / "artifacts/work"), output=str(ROOT / "artifacts/output/app.apk"),
                     app_name="我的脚本", package_name="com.example.myscript", version_name="1.0.0", version_code="1", alias="lcpacker")
+    settings.update({name: value for name, value in bundled.items()
+                     if name in ("java", "apktool", "aapt", "zipalign", "apksigner", "adb")})
     return settings
 
 

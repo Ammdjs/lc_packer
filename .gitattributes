@@ -9,3 +9,4 @@
 *.ps1 text eol=crlf
 # Preserve the original third-party license text, including whitespace.
 licenses/*.txt -text -whitespace
+lc_packer/assets/templates/*.apk -text -diff

@@ -6,25 +6,27 @@ from pathlib import Path
 import sys
 import threading
 
-from PySide6.QtCore import QFile, QIODevice, QObject, QThread, Qt, Signal, Slot, QUrl
+from PySide6.QtCore import QFile, QIODevice, QObject, QThread, QTimer, Qt, Signal, Slot, QUrl
 from PySide6.QtGui import QColor, QDesktopServices, QFont, QFontDatabase, QPixmap
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import (QAbstractItemView, QApplication, QCheckBox, QHeaderView,
+from PySide6.QtWidgets import (QAbstractItemView, QApplication, QCheckBox, QComboBox, QHeaderView,
                               QFileDialog, QLabel, QLineEdit, QListWidget, QMainWindow,
                               QPlainTextEdit, QProgressBar, QPushButton, QSplitter,
                               QSizePolicy, QStackedWidget, QStyle, QTableWidget, QTableWidgetItem,
                               QHBoxLayout)
 
-from .app import (CONFIG_PATH, FIELDS, build_from_settings, capture_from_settings,
+from .app import (CONFIG_PATH, FIELDS, ROOT, build_from_settings, capture_from_settings,
                   create_keystore, environment_config, load_settings, output_path_for_name, save_settings)
 from .diagnostics import check_environment
 from . import __version__
+from .builtin_templates import load_templates, template_path
 from .templates import inspect_template
+from .toolchain import ToolInstallError, install_packages, load_catalog, package_status
 
 UI_DIR = Path(__file__).with_name("ui")
 PAGE_TITLES = ("打包配置", "编译与签名", "工具路径", "环境检测", "构建日志")
 PAGE_HINTS = ("导入 MQB 工程，配置应用并生成已签名 APK", "使用手机助手的新编译产物，并配置自己的 APK 签名",
-              "选择本机工具、插件目录及用于验证的设备", "查看实际路径、版本、错误原因和修复建议",
+              "安装随包工具，或选择本机工具、插件目录及用于验证的设备", "查看实际路径、版本、错误原因和修复建议",
               "跟踪真实构建阶段，定位失败原因")
 CHECK_TITLES = {"python": "Python 运行时", "qt": "Qt / PySide6 界面", "java": "Java / JDK",
                 "apktool": "APK 构建工具", "aapt": "APK 资源检查", "zipalign": "APK 对齐工具",
@@ -36,6 +38,24 @@ CHECK_STATUS = {"pass": "通过", "warning": "提示", "error": "错误"}
 STAGES = {"decode-template": "解码 APK 模板", "build-apk": "构建 APK", "zipalign": "对齐 APK",
           "sign": "签名 APK", "verify-signature": "验证 APK 签名", "verify-metadata": "核对包信息与脚本",
           "create-keystore": "创建签名密钥"}
+TOOL_STATES = {"installed": "已安装", "missing": "未安装", "broken": "需要修复",
+               "package_missing": "缺少离线包", "error": "检查失败"}
+TOOL_FIELDS = ("java", "apktool", "aapt", "zipalign", "apksigner", "adb")
+TOOL_HELP = {
+    "java": ("jdk17", "jdk17", "bin/java.exe",
+             "java 运行 apktool 与 apksigner，构建必需；同一 JDK 的 keytool 创建签名密钥，新建密钥时必需。"),
+    "apktool": ("apktool", "apktool", "apktool.jar", "解码模板并重建 APK，构建必需。"),
+    "aapt": ("build-tools", "android-build-tools", "aapt.exe", "读取 APK 包信息、资源与 ABI，构建校验必需。"),
+    "zipalign": ("build-tools", "android-build-tools", "zipalign.exe", "在签名前对齐 APK 内部文件，构建必需。"),
+    "apksigner": ("build-tools", "android-build-tools", "lib/apksigner.jar", "为 APK 签名并验证签名，构建必需。"),
+    "adb": ("platform-tools", "platform-tools", "adb.exe", "连接设备、查询设备 ABI 与连接状态；设备检测时必需，仅构建 APK 时可选。"),
+}
+PACKAGE_HELP = {
+    "jdk17": "java 运行 apktool / apksigner，构建必需；keytool 创建签名密钥，新建密钥时必需。",
+    "apktool": "解码 APK 模板并重建 APK，构建必需。",
+    "build-tools": "aapt 读取包信息与 ABI，zipalign 对齐 APK，apksigner 签名及验证；构建必需。",
+    "platform-tools": "adb 连接设备并检查设备 ABI；设备检测时必需，仅构建 APK 时可选。",
+}
 
 
 class _Worker(QObject):
@@ -87,6 +107,8 @@ class PackerWindow(QMainWindow):
         self.cancel = threading.Event()
         self._thread = self._worker = None
         self._action_name = ""
+        self._tool_status_loaded = False
+        self._pending_environment_check = False
         self._loading_settings = False
         form_file = QFile(str(UI_DIR / "main_window.ui"))
         if not form_file.open(QIODevice.OpenModeFlag.ReadOnly):
@@ -120,6 +142,23 @@ class PackerWindow(QMainWindow):
         self.allow_resources = self.required(QCheckBox, "allowResourcesCheck")
         self.status_label = self.required(QLabel, "statusLabel")
         self.summary_label = self.required(QLabel, "envSummary")
+        self.tools_table = self.required(QTableWidget, "toolsTable")
+        self.tools_hint = self.required(QLabel, "toolsStatusHint")
+        self.template_combo = self.required(QComboBox, "builtinTemplateCombo")
+        self.builtin_templates = ()
+        self.cancel_install = self.required(QPushButton, "cancelInstallButton")
+        self.cancel_install.setEnabled(False)
+        self.required(QLabel, "toolsInstallLocation").setText(
+            f"安装位置：{ROOT / 'tools'}\n随程序目录保存；如需更换位置，请将整个程序目录移动到可写位置。")
+        self.tools_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.tools_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.tools_table.setWordWrap(False)
+        self.tools_table.verticalHeader().hide()
+        tool_header = self.tools_table.horizontalHeader()
+        for column in (0, 1, 2):
+            tool_header.setSectionResizeMode(column, QHeaderView.ResizeMode.ResizeToContents)
+        for column in (3, 4):
+            tool_header.setSectionResizeMode(column, QHeaderView.ResizeMode.Stretch)
         self.progress.hide()
         self.required(QHBoxLayout, "headerLayout").setStretch(0, 1)
         self.required(QHBoxLayout, "footerLayout").setStretch(0, 1)
@@ -148,7 +187,11 @@ class PackerWindow(QMainWindow):
         self._wire("rerunDoctorButton", self.doctor, busy=True)
         self._wire("newKeyButton", self.new_key, busy=True)
         self._wire("inspectTemplateButton", self.inspect_selected_template, busy=True)
+        self._wire("useBuiltinTemplateButton", self.use_builtin_template)
         self._wire("cancelCaptureButton", self.cancel.set)
+        self._wire("installToolsButton", self.install_tools, busy=True)
+        self._wire("refreshToolsButton", self.refresh_tools, busy=True)
+        self._wire("cancelInstallButton", self.cancel.set)
         self._wire("saveButton", self.save)
         self._wire("loadConfigButton", self.load_config)
         self._wire("revealButton", self.reveal)
@@ -165,11 +208,15 @@ class PackerWindow(QMainWindow):
         self.edits["source"].textChanged.connect(self._source_changed)
         self.edits["app_name"].textChanged.connect(self._app_name_changed)
         self.edits["template"].textChanged.connect(lambda: self.required(QLabel, "templateSummary").setText("模板已变化，请重新检查"))
+        self.edits["template"].textChanged.connect(self.sync_builtin_template)
+        self.template_combo.currentIndexChanged.connect(self.use_builtin_template)
         for key in ("app_name", "package_name", "version_name", "version_code", "icon"):
             self.edits[key].textChanged.connect(self.refresh_preview)
         self.checks.itemSelectionChanged.connect(self.show_check)
         self._set_icons()
         self.refresh_preview()
+        self.prepare_builtin_templates()
+        self.prepare_tools_catalog()
 
     def required(self, cls, name):
         widget = self.findChild(cls, name)
@@ -219,6 +266,136 @@ class PackerWindow(QMainWindow):
             self.pages.setCurrentIndex(index)
             self.required(QLabel, "pageTitle").setText(PAGE_TITLES[index])
             self.required(QLabel, "pageSubtitle").setText(PAGE_HINTS[index])
+            if index == 2 and not self._tool_status_loaded and not self.busy:
+                self.refresh_tools()
+
+    def prepare_builtin_templates(self):
+        """Populate metadata without changing a saved external template path."""
+        self.template_combo.blockSignals(True)
+        try:
+            self.builtin_templates = load_templates()
+            for item in self.builtin_templates:
+                state = "已验证" if item["verified"] else "未实测"
+                self.template_combo.addItem(f"{item['label']} · {state}", item["id"])
+            self.template_combo.setCurrentIndex(-1)
+        except (OSError, ValueError) as exc:
+            self.required(QLabel, "builtinTemplateDescription").setText(f"无法读取内置模板目录：{exc}；仍可浏览外部模板。")
+            self.required(QPushButton, "useBuiltinTemplateButton").setEnabled(False)
+            return
+        finally:
+            self.template_combo.blockSignals(False)
+        self.sync_builtin_template()
+
+    @Slot()
+    def sync_builtin_template(self):
+        selected = self.edits["template"].text().strip()
+        index = next((index for index, item in enumerate(self.builtin_templates)
+                      if selected and Path(selected).resolve() ==
+                      (Path(__file__).parent / "assets/templates" / item["file"]).resolve()), -1)
+        self.template_combo.blockSignals(True)
+        self.template_combo.setCurrentIndex(index)
+        self.template_combo.blockSignals(False)
+        self.required(QPushButton, "useBuiltinTemplateButton").setEnabled(index >= 0)
+        label = self.required(QLabel, "builtinTemplateDescription")
+        if index < 0:
+            label.setText("外部模板：保留当前路径。运行兼容性未实测，请先检查模板、LC 格式与设备 ABI。"
+                          if selected else "请选择内置模板，或浏览外部 APK / APKM 模板。")
+            return
+        item = self.builtin_templates[index]
+        scope = ("已验证记录（此前）：旧 510 模板 + 3.7.2 LC，在雷电 9 运行；本次清理后仅构建验证，其他设备与功能未实测。"
+                 if item["verified"] else "未实测：名称特征依据原文件名，不代表运行兼容性，请先验证目标设备。")
+        label.setText(f"{scope}\n{item['label']} · {item['file']}\n{item['description']}\n"
+                      f"模板 ABI：{', '.join(item['abis']) or '未识别'}；脚本格式：{item['format']}。")
+
+    @Slot()
+    def use_builtin_template(self):
+        identifier = self.template_combo.currentData()
+        if identifier is None:
+            return
+        try:
+            path = template_path(identifier)
+        except (OSError, ValueError) as exc:
+            self.required(QLabel, "builtinTemplateDescription").setText(f"内置模板不可用：{exc}；可重新选用或浏览外部模板。")
+            self.required(QPushButton, "useBuiltinTemplateButton").setEnabled(True)
+            self.set_status("内置模板校验失败，请查看模板说明", "error")
+            return
+        self.edits["template"].setText(str(path))
+        self.sync_builtin_template()
+        self.set_status("已选用内置模板；请检查模板与 LC 格式及目标设备 ABI")
+
+    def set_tool_help(self, packages):
+        catalog = {package.id: package for package in packages}
+        for field, (package_id, default_target, suffix, purpose) in TOOL_HELP.items():
+            package = catalog.get(package_id)
+            target = package.target if package else default_target
+            version = package.version if package else "清单不可用"
+            help_text = f"用途：{purpose}\n随包版本：{version}；默认位置：{ROOT / 'tools' / target / suffix}"
+            if field == "java":
+                help_text += f"\nkeytool 默认位置：{ROOT / 'tools' / target / 'bin/keytool.exe'}"
+            self.required(QLabel, field + "Help").setText(help_text)
+            for widget in (self.edits[field], self.required(QLabel, field + "Label"),
+                           self.required(QPushButton, field + "Browse")):
+                widget.setToolTip(help_text)
+
+    def package_help(self, identifier, version, path):
+        purpose = PACKAGE_HELP.get(identifier, "按工具清单提供构建或设备检测功能。")
+        return f"用途：{purpose}\n随包版本：{version}；默认位置：{path}"
+
+    def prepare_tools_catalog(self):
+        """List metadata without hashing tool files on the GUI thread."""
+        try:
+            packages = load_catalog()
+            self.set_tool_help(packages)
+            rows = [(pkg.label, pkg.version, "待检查", str(ROOT / "tools" / pkg.target),
+                     self.package_help(pkg.id, pkg.version, ROOT / "tools" / pkg.target) +
+                     "\n进入工具页或点击刷新检查安装状态") for pkg in packages]
+            self._set_tool_rows(rows)
+            self.tools_hint.setText("工具状态尚未检查；安装会校验并解压随程序提供的离线包。手机助手请自行选择。")
+        except (OSError, ValueError, ToolInstallError) as exc:
+            self.set_tool_help(())
+            self._set_tool_rows(())
+            self.tools_hint.setText(f"无法读取随包工具清单：{exc}")
+
+    def _set_tool_rows(self, rows):
+        self.tools_table.setRowCount(len(rows))
+        for row, values in enumerate(rows):
+            for column, value in enumerate(values):
+                cell = QTableWidgetItem(str(value))
+                cell.setToolTip(str(value) + "\n" + str(values[4]) if column != 4 else str(value))
+                self.tools_table.setItem(row, column, cell)
+
+    def _read_tool_statuses(self):
+        return tuple(package_status(ROOT, package) for package in load_catalog())
+
+    def _show_tool_statuses(self, statuses):
+        self._set_tool_rows([(item.label, item.version, TOOL_STATES.get(item.state, item.state),
+                              str(item.path), self.package_help(item.id, item.version, item.path) +
+                              "\n" + item.detail) for item in statuses])
+        self._tool_status_loaded = True
+        installed = sum(item.state == "installed" for item in statuses)
+        self.tools_hint.setText(f"随包工具：{installed} / {len(statuses)} 已安装并通过文件校验；可继续手动选择外部工具。")
+
+    @Slot()
+    def refresh_tools(self):
+        self.start_job("检查随包工具状态", lambda log: ("tools-status", self._read_tool_statuses()))
+
+    def _install_tools(self, log):
+        # Do not reuse the startup metadata: the installer must validate the
+        # real catalog again and surface errors, including a missing catalog.
+        settings = install_packages(ROOT, log=log, cancel_event=self.cancel)
+        return "tools-installed", (settings, self._read_tool_statuses())
+
+    @Slot()
+    def install_tools(self):
+        if self.busy:
+            return
+        self.report = None
+        self.report_revision = -1
+        self.checks.setRowCount(0)
+        self.details.clear()
+        self.summary_label.setText("工具安装中；此前的环境检测已失效，安装后会重新检测")
+        self.start_job("安装随包工具", self._install_tools)
+        self.go(2)
 
     def go(self, index):
         self.navigation.setCurrentRow(index)
@@ -289,6 +466,7 @@ class PackerWindow(QMainWindow):
         self.busy = True
         self._action_name = name
         self.cancel.clear()
+        self.cancel_install.setEnabled(name == "安装随包工具")
         for button in self._actions:
             button.setEnabled(False)
         self.progress.setRange(0, 0)
@@ -315,6 +493,15 @@ class PackerWindow(QMainWindow):
         for button in self._actions:
             button.setEnabled(True)
         self._thread = self._worker = None
+        self.cancel_install.setEnabled(False)
+        if self._pending_environment_check:
+            QTimer.singleShot(0, self._run_pending_environment_check)
+
+    @Slot()
+    def _run_pending_environment_check(self):
+        if self._pending_environment_check and not self.busy:
+            self._pending_environment_check = False
+            self.doctor()
 
     @Slot()
     def build(self):
@@ -370,12 +557,30 @@ class PackerWindow(QMainWindow):
         for secret in sorted((value for value in (self.password.text(), self.key_password.text()) if value), key=len, reverse=True):
             text = str(text).replace(secret, "[REDACTED]")
         self.append_log("失败详情：" + text)
+        if self._action_name in ("安装随包工具", "检查随包工具状态"):
+            self.tools_hint.setText(str(text))
         self.set_status("操作失败，请查看构建日志", "error")
         self.go(4)
 
     @Slot(str, object)
     def handle_result(self, kind, result):
-        if kind == "build":
+        if kind == "tools-status":
+            self._show_tool_statuses(result)
+            self.set_status("随包工具状态已刷新")
+        elif kind == "tools-installed":
+            settings, statuses = result
+            for name in TOOL_FIELDS:
+                if name in settings:
+                    self.edits[name].setText(str(settings[name]))
+            self._show_tool_statuses(statuses)
+            self._pending_environment_check = True
+            self.append_log(f"随包工具已就绪：{ROOT / 'tools'}；正在准备重新检测环境。")
+            try:
+                save_settings(self.config_path, self.settings())
+                self.set_status("工具已安装并绑定，配置已保存；等待环境重检")
+            except (OSError, ValueError) as exc:
+                self.handle_failure(f"工具已安装，但保存配置失败：{exc}")
+        elif kind == "build":
             self.append_log(f"APK 构建、签名验证通过：{result.path}\n编译模式：{result.compilation_mode}\n设备执行：尚未验证")
             for warning in result.warnings:
                 self.append_log("提示：" + warning)
@@ -464,9 +669,10 @@ class PackerWindow(QMainWindow):
     def closeEvent(self, event):
         if self.busy:
             self.cancel.set()
-            self.set_status("捕获已请求取消；请等待当前任务结束后再关闭", "warning")
+            self.set_status("已请求取消；请等待当前任务结束后再关闭", "warning")
             event.ignore()
             return
+        self._pending_environment_check = False
         self.password.clear()
         self.key_password.clear()
         super().closeEvent(event)

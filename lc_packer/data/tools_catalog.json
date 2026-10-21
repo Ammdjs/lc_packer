@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "packages": [
+    {
+      "id": "jdk17",
+      "label": "Java / JDK 17",
+      "version": "17.0.20.1+1",
+      "filename": "OpenJDK17U-jdk_x64_windows_hotspot_17.0.20.1_1.zip",
+      "sha256": "e53a79c3c3d86865bd7e787903884331068e71321714ffd44f145785affc7cb0",
+      "size": 190817615,
+      "kind": "zip",
+      "target": "jdk17",
+      "prefix": "jdk-17.0.20.1+1/",
+      "required": [
+        "bin/java.exe",
+        "bin/keytool.exe",
+        "bin/java.dll",
+        "bin/server/jvm.dll",
+        "lib/modules",
+        "legal/java.base/LICENSE"
+      ],
+      "settings": {
+        "java": "bin/java.exe"
+      },
+      "source_url": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20.1%2B1/OpenJDK17U-jdk_x64_windows_hotspot_17.0.20.1_1.zip",
+      "license_url": "https://openjdk.org/legal/gplv2+ce.html"
+    },
+    {
+      "id": "apktool",
+      "label": "APK 构建工具",
+      "version": "3.0.3",
+      "filename": "apktool_3.0.3.jar",
+      "sha256": "dbf930b076c6b9be08d57c449cacefc3bdd6b71ebd59b3066fc0e1f5b14f9423",
+      "size": 15478013,
+      "kind": "jar",
+      "target": "apktool",
+      "prefix": "",
+      "required": [
+        "apktool.jar"
+      ],
+      "settings": {
+        "apktool": "apktool.jar"
+      },
+      "source_url": "https://github.com/iBotPeaches/Apktool/releases/download/v3.0.3/apktool_3.0.3.jar",
+      "license_url": "https://apktool.org/docs/faq/"
+    },
+    {
+      "id": "build-tools",
+      "label": "Android APK 工具",
+      "version": "36.1.0",
+      "filename": "android-build-tools-36.1.0-lc.zip",
+      "sha256": "d1bc254a42dc67101604ba221a5b6e5b18a9406ad70fc9e1e51dabcf16d8452e",
+      "size": 5129388,
+      "kind": "zip",
+      "target": "android-build-tools",
+      "prefix": "",
+      "required": [
+        "aapt.exe",
+        "zipalign.exe",
+        "lib/apksigner.jar",
+        "NOTICE.txt",
+        "source.properties"
+      ],
+      "settings": {
+        "aapt": "aapt.exe",
+        "zipalign": "zipalign.exe",
+        "apksigner": "lib/apksigner.jar"
+      },
+      "source_url": "https://dl.google.com/android/repository/build-tools_r36.1_windows.zip",
+      "license_url": "https://developer.android.com/studio/terms"
+    },
+    {
+      "id": "platform-tools",
+      "label": "ADB 设备工具",
+      "version": "37.0.1",
+      "filename": "android-platform-tools-37.0.1-lc.zip",
+      "sha256": "80f68202d7c698aa28bfebd5acdfbb22c5441bf0fce6d7804aafa2bd52293dac",
+      "size": 9609809,
+      "kind": "zip",
+      "target": "platform-tools",
+      "prefix": "",
+      "required": [
+        "adb.exe",
+        "AdbWinApi.dll",
+        "AdbWinUsbApi.dll",
+        "NOTICE.txt",
+        "source.properties"
+      ],
+      "settings": {
+        "adb": "adb.exe"
+      },
+      "source_url": "https://dl.google.com/android/repository/platform-tools_r37.0.1-win.zip",
+      "license_url": "https://android.googlesource.com/platform/packages/modules/adb/+/refs/heads/main/NOTICE"
+    }
+  ],
+  "source_archives": [
+    {
+      "filename": "OpenJDK17U-jdk-sources_17.0.20.1_1.tar.gz",
+      "size": 109272338,
+      "sha256": "21e2a065d244ab048e737f21af5d1fc74daaeb6707de36477ead8db1dca71214",
+      "source_url": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20.1%2B1/OpenJDK17U-jdk-sources_17.0.20.1_1.tar.gz",
+      "component": "Temurin JDK 17.0.20.1+1 corresponding source"
+    }
+  ],
+  "upstream_archives": [
+    {
+      "url": "https://dl.google.com/android/repository/build-tools_r36.1_windows.zip",
+      "size": 59366211,
+      "sha1": "95f048ae758dad90617975fe3f787f038b03338c",
+      "included_members": [
+        "android-16/aapt.exe",
+        "android-16/zipalign.exe",
+        "android-16/lib/apksigner.jar",
+        "android-16/NOTICE.txt",
+        "android-16/source.properties"
+      ]
+    },
+    {
+      "url": "https://dl.google.com/android/repository/platform-tools_r37.0.1-win.zip",
+      "size": 8044989,
+      "sha1": "e03e78b1d80b396f1c3358e31251cb31740e1110",
+      "included_members": [
+        "platform-tools/adb.exe",
+        "platform-tools/AdbWinApi.dll",
+        "platform-tools/AdbWinUsbApi.dll",
+        "platform-tools/NOTICE.txt",
+        "platform-tools/source.properties"
+      ]
+    }
+  ]
+}

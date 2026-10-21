@@ -3,6 +3,7 @@ __pycache__/
 .venv/
 artifacts/
 tools/
+tool-packages/
 .superpowers/
 *.keystore
 *.jks
@@ -12,6 +13,7 @@ local-config.json
 dist/
 build/
 *.apk
+!lc_packer/assets/templates/*.apk
 *.apkm
 *.mqb
 *.lc

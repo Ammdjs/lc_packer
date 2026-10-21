@@ -19,6 +19,9 @@ QGroupBox QWidget { background: transparent; }
 QLabel { background: transparent; }
 QLineEdit { background: white; border: 1px solid #d9e2ed; border-radius: 5px; padding: 7px 9px; min-height: 20px; selection-background-color: #317de5; }
 QLineEdit:focus { border-color: #4c91ed; background: #fbfdff; }
+QGroupBox QComboBox, QComboBox { background: white; color: #25354b; border: 1px solid #d9e2ed; border-radius: 5px; padding: 7px 9px; min-height: 20px; }
+QComboBox:focus { border-color: #4c91ed; }
+QComboBox QAbstractItemView { background: white; color: #25354b; selection-background-color: #e3eeff; selection-color: #223a5c; border: 1px solid #d9e2ed; }
 QPushButton { background: white; border: 1px solid #d7e0eb; border-radius: 5px; padding: 8px 12px; min-height: 19px; color: #3e526f; }
 QPushButton:hover { background: #f0f6ff; border-color: #94baf1; }
 QPushButton:pressed { background: #e3efff; }

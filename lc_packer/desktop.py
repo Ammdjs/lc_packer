@@ -9,10 +9,12 @@ import sys
 
 def self_test(report_path):
     from PySide6.QtCore import qVersion
-    from PySide6.QtWidgets import QApplication, QLabel
+    from PySide6.QtWidgets import QApplication, QLabel, QPushButton
     from .app import CONFIG_PATH, ROOT, default_settings
     from . import __version__
     from .gui import PackerWindow, UI_DIR
+    from .toolchain import load_catalog
+    from .builtin_templates import load_templates
 
     application = QApplication.instance() or QApplication([])
     application.setApplicationName("LC打包")
@@ -38,7 +40,14 @@ def self_test(report_path):
                   "pages": window.pages.count(), "fields": len(window.edits),
                   "window_visible": window.isVisible(),
                   "ui_exists": (UI_DIR / "main_window.ui").is_file(),
-                  "stylesheet_exists": (UI_DIR / "style.qss").is_file()}
+                  "stylesheet_exists": (UI_DIR / "style.qss").is_file(),
+                  "catalog_packages": len(load_catalog()),
+                  "builtin_template_count": len(load_templates()),
+                  "builtin_template_present": (UI_DIR.parent / 'assets/templates/root-510.apk').is_file(),
+                  "tool_installer_ui": all(window.findChild(QPushButton, name) is not None for name in
+                        ('installToolsButton', 'refreshToolsButton', 'cancelInstallButton'))}
+        result['ok'] = (result['ok'] and result['catalog_packages'] == 4 and result['builtin_template_count'] == 16
+                        and result['builtin_template_present'] and result['tool_installer_ui'])
         with Path(report_path).open("x", encoding="utf-8") as output:
             json.dump(result, output, ensure_ascii=False, indent=2)
         return 0 if result["ok"] else 2

@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "2.0.0",
   "files": [
     "CHANGELOG.md",
     "LCPacker.spec",
@@ -12,8 +12,11 @@
     "lc_packer/__main__.py",
     "lc_packer/app.py",
     "lc_packer/build.py",
+    "lc_packer/builtin_templates.py",
     "lc_packer/cli.py",
     "lc_packer/compiler.py",
+    "lc_packer/data/templates_catalog.json",
+    "lc_packer/data/tools_catalog.json",
     "lc_packer/designer.py",
     "lc_packer/desktop.py",
     "lc_packer/devices.py",
@@ -24,7 +27,9 @@
     "lc_packer/release.py",
     "lc_packer/runtime.py",
     "lc_packer/signing.py",
+    "lc_packer/template_bundle.py",
     "lc_packer/templates.py",
+    "lc_packer/toolchain.py",
     "lc_packer/ui/main_window.ui",
     "lc_packer/ui/style.qss",
     "licenses/GPL-2.0-only.txt",
@@ -33,6 +38,7 @@
     "licenses/PYINSTALLER-COPYING.txt",
     "licenses/PYTHON-LICENSE.txt",
     "packaging/entrypoint.py",
+    "packaging/fetch_tool_packages.py",
     "packaging/release_manifest.json",
     "packaging/version_info.txt",
     "packaging/使用说明.txt",
@@ -41,12 +47,101 @@
     "start.cmd",
     "tests/test_archives.py",
     "tests/test_backend.py",
+    "tests/test_builtin_templates.py",
     "tests/test_cli.py",
+    "tests/test_cli_tools.py",
     "tests/test_compiler.py",
     "tests/test_desktop.py",
     "tests/test_diagnostics.py",
     "tests/test_gui.py",
     "tests/test_output_name.py",
-    "tests/test_release.py"
-  ]
+    "tests/test_release.py",
+    "tests/test_template_bundle.py",
+    "tests/test_template_gui.py",
+    "tests/test_tool_install_gui.py",
+    "tests/test_toolchain.py"
+  ],
+  "assets": [
+    {
+      "path": "lc_packer/assets/templates/root-510.apk",
+      "size": 21102215,
+      "sha256": "a147493b276208b7726b5a13a327e57f6da0564712a3d4b3a8f74b3deb93ea3e"
+    },
+    {
+      "path": "lc_packer/assets/templates/root-501-autostart-autorun.apk",
+      "size": 21129701,
+      "sha256": "8740f2d8b4a96389f3c973ce2d9b20b77facc5a0e28b641410f8fd42df9337c9"
+    },
+    {
+      "path": "lc_packer/assets/templates/root-510-standard.apk",
+      "size": 21102215,
+      "sha256": "a147493b276208b7726b5a13a327e57f6da0564712a3d4b3a8f74b3deb93ea3e"
+    },
+    {
+      "path": "lc_packer/assets/templates/root-560-1668063481.apk",
+      "size": 25921219,
+      "sha256": "e29ec5e11aa04b8a54d72761b8c940b345f54f57f73439dd3387dafd37f6b268"
+    },
+    {
+      "path": "lc_packer/assets/templates/root-560-no-boot.apk",
+      "size": 21187294,
+      "sha256": "a87cfb857b476f36141f1abca9aa7a31037199bc2731c8bc370d5e38142b0a5e"
+    },
+    {
+      "path": "lc_packer/assets/templates/standard-boot-default-hot-update.apk",
+      "size": 25300319,
+      "sha256": "f5c521e37c0fcd59770f7506d0817fad4713e50d9c14ffdf46d36617a497a882"
+    },
+    {
+      "path": "lc_packer/assets/templates/standard-boot-default.apk",
+      "size": 25300319,
+      "sha256": "f5c521e37c0fcd59770f7506d0817fad4713e50d9c14ffdf46d36617a497a882"
+    },
+    {
+      "path": "lc_packer/assets/templates/standard-boot-hot-update.apk",
+      "size": 25300692,
+      "sha256": "2fc2189085a7f9eeea9ecdf1ef81356c85ac9cfa7ce133a344c8c21bea55186f"
+    },
+    {
+      "path": "lc_packer/assets/templates/standard-boot.apk",
+      "size": 25300692,
+      "sha256": "2fc2189085a7f9eeea9ecdf1ef81356c85ac9cfa7ce133a344c8c21bea55186f"
+    },
+    {
+      "path": "lc_packer/assets/templates/standard-no-root-boot-default.apk",
+      "size": 16709976,
+      "sha256": "d03e2a3f4ff3c2d4be9a497532e2323d2a7ff99e2e82145e3b4fe911afb1c38e"
+    },
+    {
+      "path": "lc_packer/assets/templates/standard-no-root-boot.apk",
+      "size": 17156210,
+      "sha256": "b775d208a930b4ffc40590215047946e2a7d3aed37851010d00c9b0f1f7fa802"
+    },
+    {
+      "path": "lc_packer/assets/templates/lite-no-root.apk",
+      "size": 14637163,
+      "sha256": "423da3ce7957bfa2bc7f4d57ba2b5b2febeca66f59ec09ce5b17c472d552e2dd"
+    },
+    {
+      "path": "lc_packer/assets/templates/lite-hot-update.apk",
+      "size": 14214359,
+      "sha256": "110108aacfef427c9f1831e48271f302eb80330eb15ef9506082fd66f6cbb069"
+    },
+    {
+      "path": "lc_packer/assets/templates/lite.apk",
+      "size": 13489557,
+      "sha256": "49edbcfbc8cf8813c0e092d27d48de8732808b87941d97093831ffe3f134474d"
+    },
+    {
+      "path": "lc_packer/assets/templates/enterprise-boot-default.apk",
+      "size": 14684271,
+      "sha256": "d197429fc4da13f9627cd22d4cb05acc580b4cc7ee29ea0bfcf6adadbef072b6"
+    },
+    {
+      "path": "lc_packer/assets/templates/enterprise-boot.apk",
+      "size": 14684282,
+      "sha256": "3c4c43171ce73213d5d11fccf8889ba77cb05ea5bacd1fd8b322dcad580839e4"
+    }
+  ],
+  "tool_packages": true
 }

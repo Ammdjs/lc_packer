@@ -1,0 +1,240 @@
+{
+  "templates": [
+    {
+      "id": "root-510",
+      "label": "510 · 暂停/热更/不自启 · 支持雷电9（默认）",
+      "file": "root-510.apk",
+      "sha256": "a147493b276208b7726b5a13a327e57f6da0564712a3d4b3a8f74b3deb93ea3e",
+      "size": 21102215,
+      "description": "默认模板；原510（支持雷电9）模板与旧0a14脚本组合曾经设备验证；本次清理后仅完成构建验证。已清除示例项目及注入任务配置；原名标注热更，已清除示例更新地址，需自行配置验证。",
+      "verified": true,
+      "abis": [
+        "armeabi-v7a",
+        "x86"
+      ],
+      "format": "old-0a14"
+    },
+    {
+      "id": "root-501-autostart-autorun",
+      "label": "501 · 暂停/自启/自运行",
+      "file": "root-501-autostart-autorun.apk",
+      "sha256": "8740f2d8b4a96389f3c973ce2d9b20b77facc5a0e28b641410f8fd42df9337c9",
+      "size": 21129701,
+      "description": "未实测：功能标签仅来自原模板文件名，尚未进行设备运行验证。已清除示例项目及热更、注入任务配置；热更标签表示原模板名称，不预设更新地址。",
+      "verified": false,
+      "abis": [
+        "armeabi-v7a",
+        "x86"
+      ],
+      "format": "old-0a14"
+    },
+    {
+      "id": "root-510-standard",
+      "label": "510 · 暂停/热更/不自启",
+      "file": "root-510-standard.apk",
+      "sha256": "a147493b276208b7726b5a13a327e57f6da0564712a3d4b3a8f74b3deb93ea3e",
+      "size": 21102215,
+      "description": "未实测：功能标签仅来自原模板文件名，尚未进行设备运行验证。已清除示例项目及注入任务配置；原名标注热更，已清除示例更新地址，需自行配置验证。",
+      "verified": false,
+      "abis": [
+        "armeabi-v7a",
+        "x86"
+      ],
+      "format": "old-0a14"
+    },
+    {
+      "id": "root-560-1668063481",
+      "label": "560 · 1668063481",
+      "file": "root-560-1668063481.apk",
+      "sha256": "e29ec5e11aa04b8a54d72761b8c940b345f54f57f73439dd3387dafd37f6b268",
+      "size": 25921219,
+      "description": "未实测：功能标签仅来自原模板文件名，尚未进行设备运行验证。已清除示例项目及热更、注入任务配置；热更标签表示原模板名称，不预设更新地址。",
+      "verified": false,
+      "abis": [
+        "armeabi",
+        "armeabi-v7a",
+        "x86"
+      ],
+      "format": "old-0a14"
+    },
+    {
+      "id": "root-560-no-boot",
+      "label": "560 · 无开机自启",
+      "file": "root-560-no-boot.apk",
+      "sha256": "a87cfb857b476f36141f1abca9aa7a31037199bc2731c8bc370d5e38142b0a5e",
+      "size": 21187294,
+      "description": "未实测：功能标签仅来自原模板文件名，尚未进行设备运行验证。已清除示例项目及热更、注入任务配置；热更标签表示原模板名称，不预设更新地址。",
+      "verified": false,
+      "abis": [
+        "armeabi-v7a",
+        "x86"
+      ],
+      "format": "old-0a14"
+    },
+    {
+      "id": "standard-boot-default-hot-update",
+      "label": "标准版 · 开机自启/默认自启/热更",
+      "file": "standard-boot-default-hot-update.apk",
+      "sha256": "f5c521e37c0fcd59770f7506d0817fad4713e50d9c14ffdf46d36617a497a882",
+      "size": 25300319,
+      "description": "未实测：功能标签仅来自原模板文件名，尚未进行设备运行验证。已清除示例项目及注入任务配置；原名标注热更，已清除示例更新地址，需自行配置验证。",
+      "verified": false,
+      "abis": [
+        "armeabi",
+        "armeabi-v7a",
+        "x86"
+      ],
+      "format": "old-0a14"
+    },
+    {
+      "id": "standard-boot-default",
+      "label": "标准版 · 开机自启/默认自启",
+      "file": "standard-boot-default.apk",
+      "sha256": "f5c521e37c0fcd59770f7506d0817fad4713e50d9c14ffdf46d36617a497a882",
+      "size": 25300319,
+      "description": "未实测：功能标签仅来自原模板文件名，尚未进行设备运行验证。已清除示例项目及热更、注入任务配置；热更标签表示原模板名称，不预设更新地址。",
+      "verified": false,
+      "abis": [
+        "armeabi",
+        "armeabi-v7a",
+        "x86"
+      ],
+      "format": "old-0a14"
+    },
+    {
+      "id": "standard-boot-hot-update",
+      "label": "标准版 · 开机自启/热更",
+      "file": "standard-boot-hot-update.apk",
+      "sha256": "2fc2189085a7f9eeea9ecdf1ef81356c85ac9cfa7ce133a344c8c21bea55186f",
+      "size": 25300692,
+      "description": "未实测：功能标签仅来自原模板文件名，尚未进行设备运行验证。已清除示例项目及注入任务配置；原名标注热更，已清除示例更新地址，需自行配置验证。",
+      "verified": false,
+      "abis": [
+        "armeabi",
+        "armeabi-v7a",
+        "x86"
+      ],
+      "format": "old-0a14"
+    },
+    {
+      "id": "standard-boot",
+      "label": "标准版 · 开机自启",
+      "file": "standard-boot.apk",
+      "sha256": "2fc2189085a7f9eeea9ecdf1ef81356c85ac9cfa7ce133a344c8c21bea55186f",
+      "size": 25300692,
+      "description": "未实测：功能标签仅来自原模板文件名，尚未进行设备运行验证。已清除示例项目及热更、注入任务配置；热更标签表示原模板名称，不预设更新地址。",
+      "verified": false,
+      "abis": [
+        "armeabi",
+        "armeabi-v7a",
+        "x86"
+      ],
+      "format": "old-0a14"
+    },
+    {
+      "id": "standard-no-root-boot-default",
+      "label": "标准版 · 免ROOT/开机自启/默认自启",
+      "file": "standard-no-root-boot-default.apk",
+      "sha256": "d03e2a3f4ff3c2d4be9a497532e2323d2a7ff99e2e82145e3b4fe911afb1c38e",
+      "size": 16709976,
+      "description": "未实测：功能标签仅来自原模板文件名，尚未进行设备运行验证。已清除示例项目及热更、注入任务配置；热更标签表示原模板名称，不预设更新地址。",
+      "verified": false,
+      "abis": [
+        "armeabi",
+        "armeabi-v7a",
+        "x86"
+      ],
+      "format": "old-0a14"
+    },
+    {
+      "id": "standard-no-root-boot",
+      "label": "标准版 · 免ROOT/开机自启",
+      "file": "standard-no-root-boot.apk",
+      "sha256": "b775d208a930b4ffc40590215047946e2a7d3aed37851010d00c9b0f1f7fa802",
+      "size": 17156210,
+      "description": "未实测：功能标签仅来自原模板文件名，尚未进行设备运行验证。已清除示例项目及热更、注入任务配置；热更标签表示原模板名称，不预设更新地址。",
+      "verified": false,
+      "abis": [
+        "armeabi",
+        "armeabi-v7a",
+        "x86"
+      ],
+      "format": "old-0a14"
+    },
+    {
+      "id": "lite-no-root",
+      "label": "精简版 · 免ROOT",
+      "file": "lite-no-root.apk",
+      "sha256": "423da3ce7957bfa2bc7f4d57ba2b5b2febeca66f59ec09ce5b17c472d552e2dd",
+      "size": 14637163,
+      "description": "未实测：功能标签仅来自原模板文件名，尚未进行设备运行验证。已清除示例项目及热更、注入任务配置；热更标签表示原模板名称，不预设更新地址。",
+      "verified": false,
+      "abis": [
+        "armeabi",
+        "armeabi-v7a",
+        "x86"
+      ],
+      "format": "old-0a14"
+    },
+    {
+      "id": "lite-hot-update",
+      "label": "精简版 · 热更",
+      "file": "lite-hot-update.apk",
+      "sha256": "110108aacfef427c9f1831e48271f302eb80330eb15ef9506082fd66f6cbb069",
+      "size": 14214359,
+      "description": "未实测：功能标签仅来自原模板文件名，尚未进行设备运行验证。已清除示例项目及注入任务配置；原名标注热更，已清除示例更新地址，需自行配置验证。",
+      "verified": false,
+      "abis": [
+        "armeabi",
+        "armeabi-v7a",
+        "x86"
+      ],
+      "format": "old-0a14"
+    },
+    {
+      "id": "lite",
+      "label": "精简版",
+      "file": "lite.apk",
+      "sha256": "49edbcfbc8cf8813c0e092d27d48de8732808b87941d97093831ffe3f134474d",
+      "size": 13489557,
+      "description": "未实测：功能标签仅来自原模板文件名，尚未进行设备运行验证。已清除示例项目及热更、注入任务配置；热更标签表示原模板名称，不预设更新地址。",
+      "verified": false,
+      "abis": [
+        "armeabi",
+        "armeabi-v7a",
+        "x86"
+      ],
+      "format": "old-0a14"
+    },
+    {
+      "id": "enterprise-boot-default",
+      "label": "企业版 · 开机自启/默认自启",
+      "file": "enterprise-boot-default.apk",
+      "sha256": "d197429fc4da13f9627cd22d4cb05acc580b4cc7ee29ea0bfcf6adadbef072b6",
+      "size": 14684271,
+      "description": "未实测：功能标签仅来自原模板文件名，尚未进行设备运行验证。已清除示例项目及热更、注入任务配置；热更标签表示原模板名称，不预设更新地址。",
+      "verified": false,
+      "abis": [
+        "armeabi",
+        "armeabi-v7a",
+        "x86"
+      ],
+      "format": "old-0a14"
+    },
+    {
+      "id": "enterprise-boot",
+      "label": "企业版 · 开机自启",
+      "file": "enterprise-boot.apk",
+      "sha256": "3c4c43171ce73213d5d11fccf8889ba77cb05ea5bacd1fd8b322dcad580839e4",
+      "size": 14684282,
+      "description": "未实测：功能标签仅来自原模板文件名，尚未进行设备运行验证。已清除示例项目及热更、注入任务配置；热更标签表示原模板名称，不预设更新地址。",
+      "verified": false,
+      "abis": [
+        "armeabi",
+        "armeabi-v7a",
+        "x86"
+      ],
+      "format": "old-0a14"
+    }
+  ]
+}

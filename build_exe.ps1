@@ -1,4 +1,4 @@
-﻿param([string]$OutputDirectory = 'dist\1.0.0')
+﻿param([string]$OutputDirectory = 'dist\2.0.0')
 
 $ErrorActionPreference = 'Stop'
 Push-Location -LiteralPath $PSScriptRoot

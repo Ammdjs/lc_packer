@@ -40,6 +40,11 @@ class DesktopTests(unittest.TestCase):
             self.assertEqual(data["pages"], 5)
             self.assertFalse(data["window_visible"])
             self.assertTrue(data["ui_exists"] and data["stylesheet_exists"])
+            self.assertEqual(data['application_version'], '2.0.0')
+            self.assertEqual(data['catalog_packages'], 4)
+            self.assertTrue(data['builtin_template_present'])
+            self.assertTrue(data['tool_installer_ui'])
+            self.assertEqual(data['builtin_template_count'], 16)
 
     def test_external_path_cleanup_keeps_user_tools(self):
         from lc_packer.runtime import external_tool_path
