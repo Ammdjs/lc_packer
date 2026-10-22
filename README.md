@@ -1,19 +1,19 @@
-# LC打包 2.0.0
+# LC打包 2.0.1
 
 LC打包是面向 Windows 64 位的安卓脚本打包工具，使用 Qt 6 / PySide6 图形界面，提供工程配置、LC 捕获、签名密钥管理、离线工具安装、环境检测和构建日志。
 
-当前打包链路为：**MQB 工程资源 + 手机助手生成的 LC + 匹配的 APK 模板 → 重建、对齐、签名并验证 APK**。
+当前打包链路为：**MQ / MQB 工程资源 + 手机助手生成的 LC + 匹配的 APK 模板 → 重建、对齐、签名并验证 APK**。
 
-2.0.0 内置 **16 个旧 `0a14` APK 模板**，可在界面中选择并查看说明；默认使用 **510 Root 模板**。只有原 510 模板与旧 LC 的指定组合曾经过设备验证，其余 15 个模板未实测。完整发行 ZIP 另附四个通用工具安装包。手机助手需自行准备，仍需通过手机助手 **3.7.2** 手动调试同一工程并捕获 LC；程序尚未提供经过验证的独立源码自动编译入口。
+2.0.1 内置 **16 个旧 `0a14` APK 模板**，可在界面中选择并查看说明；默认使用 **510 Root 模板**。只有原 510 模板与旧 LC 的指定组合曾经过设备验证，其余 15 个模板未实测。完整发行 ZIP 另附四个通用工具安装包。手机助手需自行准备，仍需通过手机助手 **3.7.2** 手动调试同一工程并捕获 LC；程序尚未提供经过验证的独立源码自动编译入口。
 
 ## 下载与启动
 
-从 [Releases](https://github.com/Ammdjs/lc_packer/releases) 下载 **`LC-Packer-v2.0.0-full.zip` 完整发行包**，全部解压后双击根目录的 **`LC打包.exe`**。发行包已包含 Python 和 Qt 运行库，无需另行安装 Python 或 PySide6。
+从 [Releases](https://github.com/Ammdjs/lc_packer/releases) 下载 **`LC-Packer-v2.0.1-full.zip` 完整发行包**，全部解压后双击根目录的 **`LC打包.exe`**。发行包已包含 Python 和 Qt 运行库，无需另行安装 Python 或 PySide6。
 
 | 下载内容 | 包含内容 |
 | --- | --- |
-| `LC-Packer-v2.0.0-full.zip` | EXE、16 个内置模板、源码与说明、许可文件，以及 `tool-packages/` 中的四个工具包和 JDK 对应源码归档，可离线安装工具 |
-| `LC-Packer-v2.0.0.exe` | 程序运行库和全部 16 个内置模板；不含外置 `tool-packages/`，离线安装工具请下载完整 ZIP |
+| `LC-Packer-v2.0.1-full.zip` | EXE、16 个内置模板、源码与说明、许可文件，以及 `tool-packages/` 中的四个工具包和 JDK 对应源码归档，可离线安装工具 |
+| `LC-Packer-v2.0.1.exe` | 程序运行库和全部 16 个内置模板；不含外置 `tool-packages/`，离线安装工具请下载完整 ZIP |
 | 仓库及 GitHub 自动生成的源码 ZIP | 项目源码与已纳入仓库的资源，不含工具安装原包；构建完整发行包前需取回锁定的工具包 |
 
 请解压到可写目录。EXE 将 `local-config.json`、默认工作目录和输出目录保存在自身目录中。构建工作目录请使用英文路径；输出 APK 可以使用中文文件名。`start.cmd` 也可用于启动，源码运行方式见下文。
@@ -44,18 +44,20 @@ LC打包是面向 Windows 64 位的安卓脚本打包工具，使用 Qt 6 / PySi
 | 项目 | 要求 |
 | --- | --- |
 | 操作系统 | Windows 64 位，建议 Windows 10 / 11 |
-| 工程 | 自己的 MQB，以及由同一工程生成的 LC |
+| 工程 | 自己的 MQ 脚本或 MQB 工程包，以及由同一工程生成的 LC |
 | 手机助手 | 自行准备；当前已验证的旧 `0a14` LC 来自手机助手 3.7.2 |
 | APK 模板 | 从 16 个内置模板中选择，默认 510 Root；也可选择格式和运行时匹配的外部模板 |
 | 通用工具 | 在“工具路径”页安装随包工具，或手动配置兼容工具 |
 | 签名 | 自己的密钥库、实际别名及密码；也可在界面中新建 `.p12` 密钥库 |
 | 设备 | ADB 用于设备检查；离线构建无需连接设备 |
 
+原生 `.mq` 可直接导入，无需改后缀或手工压缩。程序会读取同目录、同名的 `.prop`、`.uip`、`.atc`；旁边其他脚本的文件不会混入。配套文件不存在时按缺省资源处理。已有 ZIP 格式 `.mqb` 仍可使用。
+
 ## 打包步骤
 
 1. 在“工具路径”页安装随包工具或核对已有路径，并选择自行准备的手机助手。
-2. 在“打包配置”页选择 MQB，在下拉列表选择内置模板并阅读验证说明，或浏览匹配的外部模板。指定一个尚不存在的输出文件，填写应用名称、包名、版本及图标。修改应用名称时，输出 APK 文件名会同步更新，并保留原输出目录。
-3. 点击“开始捕获新 LC”，再到手机助手 3.7.2 中手动调试**同一工程**。也可显式选择已有 LC，但须自行确认与 MQB 对应。切换 MQB 会清空旧 LC 选择。
+2. 在“打包配置”页选择 MQ 脚本或 MQB 工程包，在下拉列表选择内置模板并阅读验证说明，或浏览匹配的外部模板。指定一个尚不存在的输出文件，填写应用名称、包名、版本及图标。修改应用名称时，输出 APK 文件名会同步更新，并保留原输出目录。
+3. 点击“开始捕获新 LC”，再到手机助手 3.7.2 中手动调试**同一工程**。也可显式选择已有 LC，但须自行确认与所选 MQ / MQB 工程对应。切换工程会清空旧 LC 选择。
 4. 在“编译与签名”页选择自己的密钥库，填写实际别名并输入密码。新配置的默认别名为 `lcpacker`；新建密钥时，仓库密码至少为 6 位。
 5. 点击“环境检测”，查看实际路径、版本、错误原因和修复建议，修复所有构建必需项。
 6. 点击“构建签名 APK”，查看构建日志和输出结果。已有 APK 不会被覆盖。
@@ -112,7 +114,7 @@ py -3 -m lc_packer gui
 ```powershell
 py -3 -m lc_packer tools-status
 py -3 -m lc_packer install-tools --config local-config.json
-py -3 -m lc_packer inspect "工程.mqb"
+py -3 -m lc_packer inspect "工程.mq"
 py -3 -m lc_packer capture --config local-config.json --timeout 180
 py -3 -m lc_packer doctor --config local-config.json --report environment-report.json
 py -3 -m lc_packer build --config local-config.json
@@ -142,13 +144,13 @@ Qt 界面定义位于 [lc_packer/ui/main_window.ui](lc_packer/ui/main_window.ui)
 ```powershell
 py -3 -m pip install -r requirements-build.txt
 py -3 packaging/fetch_tool_packages.py
-.\build_exe.ps1 -OutputDirectory dist\2.0.0
-py -3 -m lc_packer.release --exe dist/2.0.0/LC打包.exe
+.\build_exe.ps1 -OutputDirectory dist\2.0.1
+py -3 -m lc_packer.release --exe dist/2.0.1/LC打包.exe
 ```
 
 取回脚本需要联网，按 [工具清单](lc_packer/data/tools_catalog.json) 从官方来源下载并严格校验锁定版本，生成保留完整 NOTICE 和版本信息的最小 SDK 工具包。仓库不保存这些工具原包。该步骤用于准备发行包；最终用户从完整 ZIP 安装工具无需联网。
 
-EXE 输出为 `dist/2.0.0/LC打包.exe`，内置 Python / Qt、界面资源、工具清单与全部 16 个模板；外置工具包位于发行根目录的 `tool-packages/`。发布命令在本地默认生成 **`LC打包-v2.0.0.zip`**，已有文件不会被覆盖。GitHub Release 中的完整包命名为 **`LC-Packer-v2.0.0-full.zip`**，单独 EXE 命名为 **`LC-Packer-v2.0.0.exe`**；完整包内的程序名仍为 `LC打包.exe`。
+EXE 输出为 `dist/2.0.1/LC打包.exe`，内置 Python / Qt、界面资源、工具清单与全部 16 个模板；外置工具包位于发行根目录的 `tool-packages/`。发布命令在本地默认生成 **`LC打包-v2.0.1.zip`**，已有文件不会被覆盖。GitHub Release 中的完整包命名为 **`LC-Packer-v2.0.1-full.zip`**，单独 EXE 命名为 **`LC-Packer-v2.0.1.exe`**；完整包内的程序名仍为 `LC打包.exe`。
 
 发行内容由 [发布清单](packaging/release_manifest.json) 明确列出。Git 元数据、内部工作记录、缓存、本机配置、用户工程及签名密钥不纳入发行包。第三方组件及许可见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 

@@ -95,10 +95,16 @@ def environment_config(settings, password="", key_password=""):
 
 
 def build_from_settings(settings, password, key_password="", *, log=None, allow_unverified_resources=False):
-    required = ("source", "template", "compiled", "output", "java", "apktool", "aapt", "zipalign", "apksigner", "keystore", "workspace")
-    missing = [name for name in required if not settings.get(name)]
+    required = {
+        "source": "MQ 脚本（.mq）/兼容 MQB 工程包", "template": "APK 模板",
+        "compiled": "已编译 LC 文件", "output": "APK 输出文件", "java": "Java 程序",
+        "apktool": "APK 构建工具（apktool）", "aapt": "APK 资源检查工具（aapt）",
+        "zipalign": "APK 对齐工具（zipalign）", "apksigner": "APK 签名工具（apksigner）",
+        "keystore": "签名密钥库", "workspace": "构建工作目录",
+    }
+    missing = [label for name, label in required.items() if not settings.get(name)]
     if missing:
-        raise ValueError("缺少设置：" + ", ".join(missing))
+        raise ValueError("缺少设置：" + "、".join(missing))
     workspace = Path(settings["workspace"])
     workspace.mkdir(parents=True, exist_ok=True)
     output = Path(settings["output"])

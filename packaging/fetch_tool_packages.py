@@ -27,7 +27,7 @@ def fetch(item):
     if not path.exists():
         temporary = path.with_name(path.name + '.partial')
         try:
-            req = urllib.request.Request(base + name, headers={'User-Agent': 'LC-Packer-2.0.0'})
+            req = urllib.request.Request(base + name, headers={'User-Agent': 'LC-Packer-2.0.1'})
             with urllib.request.urlopen(req, timeout=90) as response, temporary.open('wb') as output:
                 shutil.copyfileobj(response, output, 1024 * 1024)
             assert temporary.stat().st_size == size, f'Unexpected size: {name}'

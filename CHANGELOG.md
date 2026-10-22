@@ -1,5 +1,11 @@
 # 更新日志
 
+## 2.0.1
+
+- 修复手机助手原生 `.mq` 脚本被当作 ZIP/MQB 工程包读取而报 `Invalid ZIP archive` 的问题。
+- 可直接选择 `.mq`，自动读取同目录、同名的 `.prop`、`.uip`、`.atc` 配套文件，保留 MQB 工程包兼容。
+- 更新工程选择、LC 捕获流程说明及缺少配置时的中文错误提示。选择工程后仍需重新选择或捕获其对应 LC。
+
 ## 2.0.0
 
 - 完整发行 ZIP 附带 Temurin JDK 17.0.20.1+1、Apktool 3.0.3、Android Build-Tools 36.1.0 必需工具和 Platform-Tools 37.0.1 的 ADB 工具，可在程序目录离线安装。

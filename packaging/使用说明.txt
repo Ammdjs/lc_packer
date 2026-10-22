@@ -1,8 +1,8 @@
-LC打包 2.0.0 · Windows 64 位
+LC打包 2.0.1 · Windows 64 位
 
-从 Releases 下载 LC-Packer-v2.0.0-full.zip 完整发行包，全部解压后双击根目录的 LC打包.exe。
+从 Releases 下载 LC-Packer-v2.0.1-full.zip 完整发行包，全部解压后双击根目录的 LC打包.exe。
 Python 和 Qt 运行库已内置，无需另行安装 Python 或 PySide6。
-单独程序 LC-Packer-v2.0.0.exe 内嵌全部 16 个模板，但不含外置工具包；离线安装工具请使用完整 ZIP。
+单独程序 LC-Packer-v2.0.1.exe 内嵌全部 16 个模板，但不含外置工具包；离线安装工具请使用完整 ZIP。
 完整 ZIP 包含 EXE、源码、16 个模板、四个工具安装包、JDK 对应源码归档与许可文件。
 源码仓库及 GitHub 自动生成的源码 ZIP 不包含工具安装原包。
 
@@ -19,7 +19,7 @@ Python 和 Qt 运行库已内置，无需另行安装 Python 或 PySide6。
 工具来源、完整许可位置及模板说明见 THIRD_PARTY_NOTICES.md。
 
 仍需自行准备：
-- 自己的 MQB 工程及由同一工程生成的 LC。
+- 自己的 MQ / MQB 工程及由同一工程生成的 LC。
 - 手机助手；当前已验证的旧 0a14 LC 来自手机助手 3.7.2。
 - 自己的签名密钥库、实际别名和密码；也可在界面中新建 .p12 密钥库。
 手机助手、私有工程、用户脚本及签名密钥不随发行包提供。
@@ -34,11 +34,11 @@ ADB 用于设备检查，离线构建无需连接设备。
    六个工具组及四项安装状态均显示用途、必需场景、版本与默认位置。
    刷新状态核对全部受管文件的大小与 SHA-256，缺失或损坏时可点击安装修复。
    修复会在 tools/.lc-backup-* 完整保留旧目录，确认无用后可自行清理。
-2. 选择 MQB，从下拉列表选择 16 个内置模板之一并阅读说明，或选择匹配的外部模板。
+2. 选择 MQ 脚本或 MQB 工程包，从下拉列表选择 16 个内置模板之一并阅读说明，或选择匹配的外部模板。
    默认使用 510（支持雷电9）模板，其余 15 个模板均未设备实测。
    指定一个尚不存在的输出文件，填写应用信息。
 3. 点击“开始捕获新 LC”，再到手机助手 3.7.2 中手动调试同一工程。
-   也可选择已有 LC，但须自行确认与 MQB 对应；切换 MQB 会清空旧 LC 选择。
+   也可选择已有 LC，但须自行确认与所选 MQ / MQB 工程对应；切换工程会清空旧 LC 选择。
 4. 选择自己的签名密钥，输入实际别名和密码。新配置的默认别名为 lcpacker。
    新建密钥时，仓库密码至少为 6 位。
 5. 点击“环境检测”，修复所有构建必需项，再点击“构建签名 APK”。
@@ -84,9 +84,11 @@ CLI 安装只有显式传入 --config 才保存路径；安装后可单独运行
 源码入口为 lc_packer；开发、测试和重新构建命令见 README.md。
 准备完整发行包时先从官方来源取回锁定工具包：
 py -3 packaging/fetch_tool_packages.py
-.\build_exe.ps1 -OutputDirectory dist\2.0.0
-py -3 -m lc_packer.release --exe dist/2.0.0/LC打包.exe
-工具取回脚本需要联网；本地发布命令默认生成 LC打包-v2.0.0.zip。
-GitHub Release 使用 LC-Packer-v2.0.0-full.zip 和 LC-Packer-v2.0.0.exe 文件名。
+.\build_exe.ps1 -OutputDirectory dist\2.0.1
+py -3 -m lc_packer.release --exe dist/2.0.1/LC打包.exe
+工具取回脚本需要联网；本地发布命令默认生成 LC打包-v2.0.1.zip。
+GitHub Release 使用 LC-Packer-v2.0.1-full.zip 和 LC-Packer-v2.0.1.exe 文件名。
 最终用户使用完整 ZIP 安装工具无需联网。
 Qt Designer 编辑通过源码中的 edit_ui.cmd 使用。
+
+2.0.1 导入说明：直接选择手机助手保存的 .mq 文件，无需改后缀；程序自动读取同目录、同名 .prop/.uip/.atc，仍兼容 ZIP 格式的 .mqb。请先选工程，再捕获对应 LC。

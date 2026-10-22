@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "2.0.1",
   "files": [
     "CHANGELOG.md",
     "LCPacker.spec",
@@ -54,6 +54,8 @@
     "tests/test_desktop.py",
     "tests/test_diagnostics.py",
     "tests/test_gui.py",
+    "tests/test_native_input_gui.py",
+    "tests/test_native_project.py",
     "tests/test_output_name.py",
     "tests/test_release.py",
     "tests/test_template_bundle.py",

@@ -1,6 +1,6 @@
 # 第三方组件
 
-LC打包 2.0.0 的 Windows EXE 内置 Python、PySide6 / Shiboken6、所需 Qt 动态库和 16 个旧 `0a14` APK 模板。完整发行 ZIP 还提供四个通用工具安装包及 JDK 对应源码归档。源码和构建脚本随完整发行包提供，可自行修改依赖并重新构建。
+LC打包 2.0.1 的 Windows EXE 内置 Python、PySide6 / Shiboken6、所需 Qt 动态库和 16 个旧 `0a14` APK 模板。完整发行 ZIP 还提供四个通用工具安装包及 JDK 对应源码归档。源码和构建脚本随完整发行包提供，可自行修改依赖并重新构建。
 
 ## 程序运行库与构建工具
 
@@ -26,7 +26,7 @@ LC打包 2.0.0 的 Windows EXE 内置 Python、PySide6 / Shiboken6、所需 Qt �
 
 JDK 同版本对应源码随完整发行包放在 **`tool-packages/OpenJDK17U-jdk-sources_17.0.20.1_1.tar.gz`**，无需安装。其 [官方源码归档](https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20.1%2B1/OpenJDK17U-jdk-sources_17.0.20.1_1.tar.gz)大小为 109,272,338 字节，SHA-256 为 `21e2a065d244ab048e737f21af5d1fc74daaeb6707de36477ead8db1dca71214`。此归档与 JDK 二进制一并提供，`lib/src.zip` 也原样保留。
 
-工具包名称、版本、来源和 SHA-256 记录在 [工具清单](lc_packer/data/tools_catalog.json)。单独 EXE 不内嵌这些外置工具包，源码仓库也不保存工具原包；完整发行 ZIP 才提供全部离线安装文件。GitHub Release 的完整包为 `LC-Packer-v2.0.0-full.zip`，单独程序为 `LC-Packer-v2.0.0.exe`；本地发布命令默认生成 `LC打包-v2.0.0.zip`。源码构建时的工具取回脚本从官方来源联网下载，最终用户安装随包工具无需联网。
+工具包名称、版本、来源和 SHA-256 记录在 [工具清单](lc_packer/data/tools_catalog.json)。单独 EXE 不内嵌这些外置工具包，源码仓库也不保存工具原包；完整发行 ZIP 才提供全部离线安装文件。GitHub Release 的完整包为 `LC-Packer-v2.0.1-full.zip`，单独程序为 `LC-Packer-v2.0.1.exe`；本地发布命令默认生成 `LC打包-v2.0.1.zip`。源码构建时的工具取回脚本从官方来源联网下载，最终用户安装随包工具无需联网。
 
 ## 第三方模板与用户资源
 

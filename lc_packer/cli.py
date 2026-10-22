@@ -16,13 +16,17 @@ from .toolchain import install_packages, load_catalog, package_status
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="LC打包 — MQB 资源 + 显式 LC 打包")
+    parser = argparse.ArgumentParser(
+        description="LC打包 — MQ 脚本（.mq）/兼容 MQB 工程包（.mqb）+ 显式 LC 打包",
+        epilog="MQ 同目录同名 .prop/.uip/.atc 自动读取；先选择工程，再捕获对应的新 LC。")
     commands = parser.add_subparsers(dest="command")
-    inspect = commands.add_parser("inspect", help="检查 MQB 或模板，不执行脚本")
-    inspect.add_argument("path", type=Path)
-    inspect.add_argument("--template", action="store_true")
+    inspect = commands.add_parser(
+        "inspect", help="检查 MQ 脚本（.mq）/兼容 MQB 工程包或模板，不执行脚本",
+        description="检查 MQ 脚本（.mq）/兼容 MQB 工程包（.mqb）或 APK 模板，不执行脚本。MQ 同目录同名 .prop/.uip/.atc 自动读取。")
+    inspect.add_argument("path", type=Path, help="MQ 脚本（.mq）、兼容 MQB 工程包（.mqb）或 APK 模板路径")
+    inspect.add_argument("--template", action="store_true", help="按 APK 模板检查")
     compile_cmd = commands.add_parser("compile", help="显示自动编译入口状态")
-    compile_cmd.add_argument("path", type=Path)
+    compile_cmd.add_argument("path", type=Path, help="MQ 脚本（.mq）或兼容 MQB 工程包（.mqb）路径")
     for name in ('install-tools', 'tools-status'):
         sub = commands.add_parser(name, help='离线安装随包工具' if name == 'install-tools' else '检查随包工具安装状态')
         sub.add_argument('--root', type=Path, default=ROOT)

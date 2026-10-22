@@ -7,6 +7,7 @@ import sys
 import tempfile
 import unittest
 from unittest.mock import patch
+from lc_packer import __version__
 
 
 class DesktopTests(unittest.TestCase):
@@ -40,7 +41,7 @@ class DesktopTests(unittest.TestCase):
             self.assertEqual(data["pages"], 5)
             self.assertFalse(data["window_visible"])
             self.assertTrue(data["ui_exists"] and data["stylesheet_exists"])
-            self.assertEqual(data['application_version'], '2.0.0')
+            self.assertEqual(data['application_version'], __version__)
             self.assertEqual(data['catalog_packages'], 4)
             self.assertTrue(data['builtin_template_present'])
             self.assertTrue(data['tool_installer_ui'])

@@ -1,11 +1,13 @@
-"""Read MQB resources without extracting or executing untrusted contents."""
+"""Read native MQ and MQB resources without executing untrusted contents."""
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 import io
+import os
 from pathlib import Path, PurePosixPath
 import re
+import stat
 import struct
 import zipfile
 
@@ -17,7 +19,7 @@ _RESOURCES = {".prop": "properties", ".uip": "ui", ".atc": "attachments"}
 
 
 class ProjectError(ValueError):
-    """An MQB cannot be read safely or does not contain one valid project."""
+    """An MQ/MQB cannot be read safely or does not contain one valid project."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -169,19 +171,100 @@ def _dependencies(source: bytes) -> tuple[str, ...]:
     return tuple(dependencies.values())
 
 
+def _native_file_stat(path: Path) -> os.stat_result:
+    try:
+        info = path.lstat()
+    except (OSError, ValueError) as exc:
+        raise ProjectError(f"无法读取项目文件 {path.name}，请检查文件是否存在及读取权限。") from exc
+    if not stat.S_ISREG(info.st_mode) or getattr(info, "st_file_attributes", 0) & stat.FILE_ATTRIBUTE_REPARSE_POINT:
+        raise ProjectError(
+            f"项目文件必须是普通文件，不能使用目录、符号链接或重解析点：{path.name}。请复制实际文件到项目目录后重试。"
+        )
+    return info
+
+
+def _read_native_file(path: Path, expected: os.stat_result, limit: int) -> bytes:
+    try:
+        with path.open("rb") as stream:
+            opened = os.fstat(stream.fileno())
+            current = _native_file_stat(path)
+            if not os.path.samestat(expected, opened) or not os.path.samestat(current, opened):
+                raise ProjectError(f"项目文件在读取时发生变化：{path.name}，请停止修改文件后重试。")
+            content = stream.read(limit + 1)
+            final_size = os.fstat(stream.fileno()).st_size
+    except (OSError, ValueError) as exc:
+        if isinstance(exc, ProjectError):
+            raise
+        raise ProjectError(f"无法读取项目文件 {path.name}，请检查文件是否存在及读取权限。") from exc
+    if len(content) > limit:
+        raise ProjectError("MQ 项目总大小超过读取限制（128 MiB），请减小源码或配套资源后重试。")
+    if len(content) != expected.st_size or final_size != expected.st_size:
+        raise ProjectError(f"项目文件大小在读取时发生变化：{path.name}，请停止修改文件后重试。")
+    return content
+
+
+def _read_native_project(path: Path) -> MqbProject:
+    try:
+        directory = path.parent.resolve(strict=True)
+    except (OSError, RuntimeError, ValueError) as exc:
+        raise ProjectError(f"无法读取项目目录，请检查 {path.name} 的目录是否存在及读取权限。") from exc
+    source_path = directory / path.name
+    files = {"source": (source_path, _native_file_stat(source_path))}
+    try:
+        for candidate in directory.iterdir():
+            field = _RESOURCES.get(candidate.suffix.casefold())
+            if field is None or candidate.stem.casefold() != path.stem.casefold():
+                continue
+            if field in files:
+                raise ProjectError(f"项目配套资源存在大小写重名歧义：{candidate.name}，请仅保留一个同名资源文件。")
+            files[field] = (candidate, _native_file_stat(candidate))
+    except OSError as exc:
+        raise ProjectError("无法读取项目目录，请检查目录的读取权限后重试。") from exc
+    if sum(info.st_size for _, info in files.values()) > MAX_EXPANDED_BYTES:
+        raise ProjectError("MQ 项目总大小超过读取限制（128 MiB），请减小源码或配套资源后重试。")
+    remaining = MAX_EXPANDED_BYTES
+    values: dict[str, bytes] = {}
+    for field, (file_path, info) in files.items():
+        values[field] = _read_native_file(file_path, info, remaining)
+        remaining -= len(values[field])
+    source = values["source"]
+    try:
+        dependencies = _dependencies(source)
+    except ProjectError as exc:
+        raise ProjectError(
+            "无法解析 MQ 源码，请检查编码（UTF-8 或 GB18030）；Import 仅允许文件名，不能含路径。"
+        ) from exc
+    return MqbProject(
+        source_name=path.name,
+        source=source,
+        properties=values.get("properties"),
+        ui=values.get("ui"),
+        attachments=values.get("attachments"),
+        dependencies=dependencies,
+    )
+
+
 def read_project(path: Path, *, filename_encoding: str | None = None) -> MqbProject:
-    """Read one MQ source and matching resources from an MQB ZIP.
+    """Read a native MQ with sibling resources, or one project from an MQB ZIP.
 
     Ambiguous legacy GB18030 names require ``filename_encoding="gb18030"``.
     Default mode preserves valid UTF-8 ZIP names, decodes unflagged names as
     GB18030, and repairs malformed flags.
     """
     path = Path(path)
+    if path.suffix.casefold() == ".mq":
+        return _read_native_project(path)
     try:
         data = path.read_bytes()
     except OSError as exc:
         raise ProjectError(f"Cannot open MQB: {path}") from exc
-    with _open_archive(data, ProjectError, filename_encoding=filename_encoding) as archive:
+    try:
+        archive = _open_archive(data, ProjectError, filename_encoding=filename_encoding)
+    except ProjectError as exc:
+        if filename_encoding not in (None, "gb18030"):
+            raise
+        raise ProjectError("MQB 不是有效的 ZIP 归档，请重新导出 .mqb 项目；原生源码请直接选择 .mq 文件。") from exc
+    with archive:
         members = _validated_members(archive, ProjectError, max_expanded_bytes=MAX_EXPANDED_BYTES)
         sources = [info for info in members.values() if not info.is_dir() and PurePosixPath(info.filename).suffix.casefold() == ".mq"]
         if len(sources) != 1:

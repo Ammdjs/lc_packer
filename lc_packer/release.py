@@ -8,7 +8,7 @@ import zipfile
 
 
 _PRIVATE_PARTS = {".git", ".superpowers", "__pycache__", "artifacts", "build", "dist", "tools", ".venv", "history"}
-_PRIVATE_SUFFIXES = {".pyc", ".apk", ".apkm", ".mqb", ".lc", ".p12", ".jks", ".keystore", ".pfx", ".key", ".pem", ".log", ".bundle", ".exe", ".zip"}
+_PRIVATE_SUFFIXES = {".pyc", ".apk", ".apkm", ".mq", ".mqb", ".prop", ".uip", ".atc", ".lc", ".p12", ".jks", ".keystore", ".pfx", ".key", ".pem", ".log", ".bundle", ".exe", ".zip"}
 
 
 def _project_file(root, name):

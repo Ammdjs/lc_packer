@@ -41,6 +41,17 @@ class ReleaseTests(unittest.TestCase):
                     create_archive(self.root, manifest, self.exe, self.output)
                 self.assertFalse(self.output.exists())
 
+    def test_manifest_cannot_include_native_mq_or_private_sidecars(self):
+        for index, suffix in enumerate((".mq", ".prop", ".uip", ".atc", ".MQ", ".PROP", ".UIP", ".ATC")):
+            with self.subTest(suffix=suffix):
+                name = f"private-project-{index}{suffix}"
+                (self.root / name).write_bytes(b"private-user-project-data")
+                output = self.root / (name + ".zip")
+                manifest = {"files": ["README.md", name]}
+                with self.assertRaises(ValueError):
+                    create_archive(self.root, manifest, self.exe, output)
+                self.assertFalse(output.exists())
+
     def test_manifest_cannot_escape_project_directory(self):
         for name in ("../outside.txt", "/outside.txt", "C:/outside.txt", "folder\\outside.txt"):
             with self.subTest(name=name), self.assertRaises(ValueError):

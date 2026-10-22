@@ -25,7 +25,7 @@ from .toolchain import ToolInstallError, install_packages, load_catalog, package
 
 UI_DIR = Path(__file__).with_name("ui")
 PAGE_TITLES = ("打包配置", "编译与签名", "工具路径", "环境检测", "构建日志")
-PAGE_HINTS = ("导入 MQB 工程，配置应用并生成已签名 APK", "使用手机助手的新编译产物，并配置自己的 APK 签名",
+PAGE_HINTS = ("导入 MQ 脚本（.mq）/兼容 MQB 工程包，生成已签名 APK", "先选择工程，再捕获手机助手的新 LC，并配置 APK 签名",
               "安装随包工具，或选择本机工具、插件目录及用于验证的设备", "查看实际路径、版本、错误原因和修复建议",
               "跟踪真实构建阶段，定位失败原因")
 CHECK_TITLES = {"python": "Python 运行时", "qt": "Qt / PySide6 界面", "java": "Java / JDK",
@@ -421,7 +421,7 @@ class PackerWindow(QMainWindow):
         elif key == "output":
             path, _ = QFileDialog.getSaveFileName(self, "选择新的 APK 输出文件", current, "APK 文件 (*.apk)")
         else:
-            filters = {"source": "MQB 工程 (*.mqb)", "template": "APK 模板 (*.apk *.apkm)",
+            filters = {"source": "MQ 脚本 / 兼容 MQB 工程包 (*.mq *.MQ *.mqb *.MQB)", "template": "APK 模板 (*.apk *.apkm)",
                        "compiled": "LC 编译文件 (*.lc)", "icon": "PNG 图标 (*.png)",
                        "keystore": "密钥库 (*.p12 *.jks *.keystore)"}
             path, _ = QFileDialog.getOpenFileName(self, "选择文件", current, filters.get(key, "可执行文件和工具 (*.exe *.jar)") + ";;所有文件 (*)")
@@ -590,7 +590,7 @@ class PackerWindow(QMainWindow):
             if revision == self.source_revision:
                 self.edits["compiled"].setText(str(compiled.path))
                 self.append_log(f"新 LC 已捕获：{compiled.path}\nSHA256：{compiled.sha256}")
-                self.set_status("LC 已捕获，请确认它对应当前 MQB", "success")
+                self.set_status("LC 已捕获，请确认它对应当前 MQ 脚本 / MQB 工程包", "success")
             else:
                 self.append_log("工程在捕获期间已变化，旧结果未绑定；请重新开始捕获。")
                 self.set_status("已丢弃过时捕获结果，请重新捕获", "warning")

@@ -176,7 +176,7 @@
            <item>
             <widget class="QLabel" name="pageSubtitle">
              <property name="text">
-              <string>导入 MQB 工程，配置应用并生成已签名 APK</string>
+              <string>导入 MQ 脚本（.mq）/兼容 MQB 工程包，生成已签名 APK</string>
              </property>
              <property name="wordWrap">
               <bool>false</bool>
@@ -313,7 +313,7 @@
                        <item>
                         <widget class="QLabel" name="sourceLabel">
                          <property name="text">
-                          <string>MQB 工程</string>
+                          <string>MQ 脚本（.mq）/兼容 MQB 工程包</string>
                          </property>
                          <property name="wordWrap">
                           <bool>false</bool>
@@ -328,7 +328,7 @@
                          <item>
                           <widget class="QLineEdit" name="sourceEdit">
                            <property name="placeholderText">
-                            <string>选择按键精灵 MQB 项目</string>
+                            <string>选择手机助手 .mq 脚本或兼容 .mqb 工程包</string>
                            </property>
                           </widget>
                          </item>
@@ -902,7 +902,8 @@
                  <item>
                   <widget class="QLabel" name="previewNote">
                    <property name="text">
-                    <string>MQB 资源与 LC 必须属于同一工程。
+                    <string>MQ 脚本 / MQB 工程包资源与 LC 必须属于同一工程。
+MQ 同目录同名 .prop/.uip/.atc 自动读取。
 旧 510 模板已验证 3.7.2 编译格式。</string>
                    </property>
                    <property name="wordWrap">
@@ -1101,7 +1102,8 @@
                    <item>
                     <widget class="QLabel" name="compileHint">
                      <property name="text">
-                      <string>先开始捕获，再到所选手机助手中手动调试同一工程。
+                      <string>先在“打包配置”选择 MQ 脚本 / MQB 工程包，再开始捕获 LC，并到所选手机助手中手动调试同一工程。
+更换工程会清空旧 LC，请重新选择或捕获。
 只接收本次新生成的文件；独立自动编译入口尚未验证。</string>
                      </property>
                      <property name="wordWrap">
